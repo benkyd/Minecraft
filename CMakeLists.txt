@@ -37,6 +37,9 @@ include_directories(${executable}
 
 file(GLOB SourceFiles 
 	${SrcDIR}/*
+	${SrcDIR}/util/*
+	${SrcDIR}/util/imgui*
+	${SrcDIR}/renderer/*
 )
 
 add_executable(${executable} ${SourceFiles})
