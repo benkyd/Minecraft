@@ -90,8 +90,6 @@ typedef enum {
 
 class Logger {
 public:
-	std::stringstream outStream;
-	std::map<LogType, std::string> lookupTable;
 	Logger();
 
 	Logger& operator<< (const LogType type) {
@@ -119,6 +117,9 @@ public:
 		outStream << data;
 		return *this;
 	}
+
+	std::stringstream outStream;
+	std::map<LogType, std::string> lookupTable;
 };
 
 #endif

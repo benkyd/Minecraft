@@ -3,4 +3,10 @@
 
 
 
+class Shader {
+public:
+
+
+};
+
 #endif

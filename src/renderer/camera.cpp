@@ -1,5 +1,14 @@
 #include "camera.hpp"
 
+Camera::Camera() {
+	roll = 0.0f;
+	pitch = 0.0f;
+	yaw = 0.0f;
+
+	eyeVector = {};
+	viewMatrix = {};
+}
+
 void Camera::UpdateView() {
 	// roll can be removed from here. because is not actually used in FPS camera
 	glm::mat4 matRoll = glm::mat4(1.0f);//identity matrix; 

@@ -1,8 +1,17 @@
 #ifndef MINECRAFT_GAME_H_
 #define MINECRAFT_GAME_H_
 
+
+#ifdef NDEBUG
+#define __DEBUG
+#endif
+
+#define __DEBUG
+// #define __IMGUI
+
 #include <memory>
-#include <vector>
+#include <string>
+#include <map>
 
 #if _WIN32
 #include <SDL.h>
@@ -33,7 +42,7 @@ private:
 	std::shared_ptr<Logger> m_logger;
 
 
-	std::vector<std::shared_ptr<Camera>> m_cameras;
+	std::map<std::string, std::shared_ptr<Camera>> m_cameras;
 	std::shared_ptr<Camera> m_activeCamera;
 
 };

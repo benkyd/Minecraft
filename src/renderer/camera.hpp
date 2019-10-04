@@ -20,8 +20,8 @@ public:
 
 private:
 	float roll, pitch, yaw;
-	glm::vec3 eyeVector;
-	glm::mat4 viewMatrix;
+	glm::vec3 eyeVector = {};
+	glm::mat4 viewMatrix = {};
 };
 
 #endif
