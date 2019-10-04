@@ -3,6 +3,7 @@
 #define LOGGER_DEFINITION
 #include <logger.h>
 
+#include "renderer/shader.hpp"
 #include "renderer/camera.hpp"
 
 #include "common.hpp"
@@ -119,6 +120,10 @@ void Game::Run() {
 	const float clear[] = { 0.1f, 0.45f, 0.9f, 1.0f };
 	glClearBufferfv(GL_COLOR, 0, clear);
 	
+	Shader shader;
+	shader.Load("E:/Games/minecraft/resources/shaders/simple");
+	shader.Use();
+
 	while (IsDisplayOpen) {
 
 		Input(&e);
