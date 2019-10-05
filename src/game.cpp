@@ -5,6 +5,7 @@
 
 #include "renderer/renderer.hpp"
 #include "renderer/camera.hpp"
+#include "renderer/face.hpp"
 
 #include "world/world.hpp"
 
@@ -124,8 +125,10 @@ void Game::Run() {
 	const float clear[] = { 0.1f, 0.45f, 0.9f, 1.0f };
 	glClearBufferfv(GL_COLOR, 0, clear);
 	
-	m_renderer = std::make_shared<Renderer>();
-	m_world = std::make_shared<World>();
+	m_renderer = std::make_unique<Renderer>();
+	m_world = std::make_unique<World>();
+
+	m_world->Faces.push_back(std::make_shared<Face>(FaceDirection::Top, 1));
 
 	while (IsDisplayOpen) {
 
