@@ -3,8 +3,10 @@
 #define LOGGER_DEFINITION
 #include <logger.h>
 
-#include "renderer/shader.hpp"
+#include "renderer/renderer.hpp"
 #include "renderer/camera.hpp"
+
+#include "world/world.hpp"
 
 #include "common.hpp"
 
@@ -14,6 +16,7 @@ Game::Game() {
 }
 
 void Game::Setup(int w, int h) {
+
 	m_logger = std::make_shared<Logger>();
 
 	*m_logger << "----------------" << LOGGER_ENDL;
@@ -104,6 +107,7 @@ void Game::Setup(int w, int h) {
 }
 
 void Game::Input(SDL_Event* e) {
+
 	while (SDL_PollEvent(e))
 		if (e->type == SDL_QUIT)
 			IsDisplayOpen = false;
@@ -120,15 +124,13 @@ void Game::Run() {
 	const float clear[] = { 0.1f, 0.45f, 0.9f, 1.0f };
 	glClearBufferfv(GL_COLOR, 0, clear);
 	
-	Shader shader;
-	shader.Load("E:/Games/minecraft/resources/shaders/simple");
-	shader.Use();
+	m_renderer = std::make_shared<Renderer>();
+	m_world = std::make_shared<World>();
 
 	while (IsDisplayOpen) {
 
 		Input(&e);
 		
-
 #ifdef __IMGUI
 		ImGui::NewFrame();
 
@@ -138,6 +140,8 @@ void Game::Run() {
 		ImGui::End();
 #endif
 		glClear(GL_DEPTH_BUFFER_BIT);
+
+		m_renderer->Render(m_world , m_activeCamera);
 
 #ifdef __IMGUI
 		ImGui::Render();

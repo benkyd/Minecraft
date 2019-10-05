@@ -1,7 +1,6 @@
 #ifndef MINECRAFT_GAME_H_
 #define MINECRAFT_GAME_H_
 
-
 #ifdef NDEBUG
 #define __DEBUG
 #endif
@@ -13,6 +12,7 @@
 #include <string>
 #include <map>
 
+
 #if _WIN32
 #include <SDL.h>
 #else
@@ -20,8 +20,10 @@
 #endif
 
 class Logger;
-class Camera;
 
+class Renderer;
+class Camera;
+class World;
 
 class Game {
 public:
@@ -41,6 +43,9 @@ private:
 
 	std::shared_ptr<Logger> m_logger;
 
+
+	std::shared_ptr<Renderer> m_renderer;
+	std::shared_ptr<World> m_world;
 
 	std::map<std::string, std::shared_ptr<Camera>> m_cameras;
 	std::shared_ptr<Camera> m_activeCamera;

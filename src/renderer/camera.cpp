@@ -10,17 +10,16 @@ Camera::Camera() {
 }
 
 void Camera::UpdateView() {
-	// roll can be removed from here. because is not actually used in FPS camera
-	glm::mat4 matRoll = glm::mat4(1.0f);//identity matrix; 
+	// roll can be removed
+	glm::mat4 matRoll = glm::mat4(1.0f); //identity matrix; 
 	glm::mat4 matPitch = glm::mat4(1.0f);//identity matrix
-	glm::mat4 matYaw = glm::mat4(1.0f);//identity matrix
+	glm::mat4 matYaw = glm::mat4(1.0f);  //identity matrix
 
-	// roll, pitch and yaw are used to store our angles in our class
+	// roll, pitch and yaw
 	matRoll = glm::rotate(matRoll, roll, glm::vec3(0.0f, 0.0f, 1.0f));
 	matPitch = glm::rotate(matPitch, pitch, glm::vec3(1.0f, 0.0f, 0.0f));
 	matYaw = glm::rotate(matYaw, yaw, glm::vec3(0.0f, 1.0f, 0.0f));
 
-	// order matters
 	glm::mat4 rotate = matRoll * matPitch * matYaw;
 
 	glm::mat4 translate = glm::mat4(1.0f);
