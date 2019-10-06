@@ -69,8 +69,6 @@ void Game::Setup(int w, int h) {
 	gladLoadGLLoader(SDL_GL_GetProcAddress);
 	glEnable(GL_MULTISAMPLE);
 	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_CULL_FACE);
-	glCullFace(GL_BACK);
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
 #ifdef __IMGUI
@@ -129,12 +127,12 @@ void Game::Run() {
 	m_renderer = std::make_unique<Renderer>();
 	m_world = std::make_unique<World>();
 
-	m_world->Faces.push_back(std::make_shared<Face>(FaceDirection::Top, 1));
-	m_world->Faces.push_back(std::make_shared<Face>(FaceDirection::Bottom, 1));
-	m_world->Faces.push_back(std::make_shared<Face>(FaceDirection::Right, 1));
-	m_world->Faces.push_back(std::make_shared<Face>(FaceDirection::Left, 1));
-	m_world->Faces.push_back(std::make_shared<Face>(FaceDirection::Front, 1));
-	m_world->Faces.push_back(std::make_shared<Face>(FaceDirection::Back, 1));
+	m_world->Faces.push_back(std::make_shared<Face>(FaceDirection::Top, 1, 1));
+	m_world->Faces.push_back(std::make_shared<Face>(FaceDirection::Bottom, 1, 2));
+	m_world->Faces.push_back(std::make_shared<Face>(FaceDirection::Right, 1, 3));
+	m_world->Faces.push_back(std::make_shared<Face>(FaceDirection::Left, 1, 4));
+	m_world->Faces.push_back(std::make_shared<Face>(FaceDirection::Front, 1, 5));
+	m_world->Faces.push_back(std::make_shared<Face>(FaceDirection::Back, 1, 6));
 
 	m_world->Shaders["Basic"] = std::make_shared<Shader>();
 	m_world->Shaders["Basic"]->Load("E:/Games/minecraft/resources/shaders/simple");

@@ -17,7 +17,7 @@ enum FaceDirection {
 
 class Face {
 public:
-	Face(FaceDirection direction, int textureID);
+	Face(FaceDirection direction, int textureID, int id);
 	
 	void GetMesh(std::vector<glm::vec3>& verts, std::vector<glm::vec2>& uvs);
 	void Render(std::shared_ptr<Camera> camera, std::shared_ptr<Shader> shader);
@@ -31,8 +31,8 @@ private:
 	std::vector<glm::vec3> m_verticies;
 	std::vector<glm::vec2> m_uvs;
 
-	GLuint m_vao;
-	GLuint m_vbo;
+	GLuint m_vao = 0;
+	GLuint m_vbo = 0;
 
 };
 
