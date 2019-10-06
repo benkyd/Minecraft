@@ -13,6 +13,7 @@ public:
 	void Load(std::string path);
 	void Load(std::string path, GLenum type);
 
+	GLuint Program;
 	void Link();
 
 	void Use();
@@ -25,7 +26,6 @@ private:
 
 	FileReader m_fileReader;
 
-	GLuint m_program;
 	GLuint m_vert;
 	GLuint m_frag;
 };

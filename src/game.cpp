@@ -4,6 +4,7 @@
 #include <logger.h>
 
 #include "renderer/renderer.hpp"
+#include "renderer/shader.hpp"
 #include "renderer/camera.hpp"
 #include "renderer/face.hpp"
 
@@ -56,8 +57,8 @@ void Game::Setup(int w, int h) {
 	*m_logger << LOGGER_INFO << "Creating OpenGL context" << LOGGER_ENDL;
 	m_glContext = SDL_GL_CreateContext(m_window);
 
-	//SDL_WarpMouseInWindow(m_window, w / 2, h / 2);
-	//SDL_SetRelativeMouseMode(SDL_TRUE);
+	SDL_WarpMouseInWindow(m_window, w / 2, h / 2);
+	SDL_SetRelativeMouseMode(SDL_TRUE);
 
 	// Set VSYNC swap interval
 	SDL_GL_SetSwapInterval(1);
@@ -70,7 +71,7 @@ void Game::Setup(int w, int h) {
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
-
+	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
 #ifdef __IMGUI
 	IMGUI_CHECKVERSION();
@@ -109,12 +110,13 @@ void Game::Setup(int w, int h) {
 
 void Game::Input(SDL_Event* e) {
 
-	while (SDL_PollEvent(e))
+	while (SDL_PollEvent(e)) {
+		m_activeCamera->HandleMouse(*e);
 		if (e->type == SDL_QUIT)
 			IsDisplayOpen = false;
+	}
 
 	m_activeCamera->MoveCamera();
-	m_activeCamera->HandleMouse(*e);
 
 }
 
@@ -123,12 +125,20 @@ void Game::Run() {
 	SDL_Event e;
 
 	const float clear[] = { 0.1f, 0.45f, 0.9f, 1.0f };
-	glClearBufferfv(GL_COLOR, 0, clear);
 	
 	m_renderer = std::make_unique<Renderer>();
 	m_world = std::make_unique<World>();
 
 	m_world->Faces.push_back(std::make_shared<Face>(FaceDirection::Top, 1));
+	m_world->Faces.push_back(std::make_shared<Face>(FaceDirection::Bottom, 1));
+	m_world->Faces.push_back(std::make_shared<Face>(FaceDirection::Right, 1));
+	m_world->Faces.push_back(std::make_shared<Face>(FaceDirection::Left, 1));
+	m_world->Faces.push_back(std::make_shared<Face>(FaceDirection::Front, 1));
+	m_world->Faces.push_back(std::make_shared<Face>(FaceDirection::Back, 1));
+
+	m_world->Shaders["Basic"] = std::make_shared<Shader>();
+	m_world->Shaders["Basic"]->Load("E:/Games/minecraft/resources/shaders/simple");
+	m_world->Shaders["Basic"]->Link();
 
 	while (IsDisplayOpen) {
 
@@ -142,7 +152,8 @@ void Game::Run() {
 		if (ImGui::Button("Save")) {}
 		ImGui::End();
 #endif
-		glClear(GL_DEPTH_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glClearBufferfv(GL_COLOR, 0, clear);
 
 		m_renderer->Render(m_world , m_activeCamera);
 

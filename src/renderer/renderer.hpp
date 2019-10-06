@@ -3,8 +3,8 @@
 
 #include "../common.hpp"
 
-#include "../world/world.hpp"
-#include "camera.hpp"
+class Camera;
+class World;
 
 // Does GL render passes then returns to the game loop
 class Renderer {

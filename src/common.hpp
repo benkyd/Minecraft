@@ -15,6 +15,7 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include <map>
 
 #if _WIN32
 #include <SDL.h>

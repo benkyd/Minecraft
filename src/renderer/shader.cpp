@@ -3,7 +3,7 @@
 Shader::Shader()
 	: m_fileReader() {
 
-	m_program = 0;
+	Program = 0;
 	m_frag = 0;
 	m_vert = 0;
 
@@ -22,8 +22,6 @@ void Shader::Load(std::string path) {
 	std::string fragmentLocation = path + ".frag";
 	Load(fragmentLocation, GL_FRAGMENT_SHADER);
 	*m_logger << LOGGER_INFO << "Fragment shader at '" << fragmentLocation << "' loaded..." << LOGGER_ENDL;
-
-	Link();
 
 }
 
@@ -63,23 +61,23 @@ void Shader::Link() {
 		*m_logger << LOGGER_INFO << "Fragment shader '" << m_frag << "' compiled..." << LOGGER_ENDL; 
 	}
 
-	m_program = glCreateProgram();
+	Program = glCreateProgram();
 
-	glAttachShader(m_program, m_vert);
-	glAttachShader(m_program, m_frag);
+	glAttachShader(Program, m_vert);
+	glAttachShader(Program, m_frag);
 
-	glLinkProgram(m_program);
+	glLinkProgram(Program);
 
 	glDeleteShader(m_vert);
 	glDeleteShader(m_frag);
 
-	*m_logger << LOGGER_INFO << "Program '" << m_program << "' loaded..." << LOGGER_ENDL;
+	*m_logger << LOGGER_INFO << "Program '" << Program << "' loaded..." << LOGGER_ENDL;
 
 }
 
 void Shader::Use() {
 
-	glUseProgram(m_program);
+	glUseProgram(Program);
 
 }
 
@@ -104,7 +102,7 @@ bool Shader::m_CheckShader(GLuint uid) {
 
 Shader::~Shader() {
 
-	glDeleteProgram(m_program);
+	glDeleteProgram(Program);
 	glDeleteShader(m_vert);
 	glDeleteShader(m_frag);
 
