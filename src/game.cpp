@@ -107,27 +107,7 @@ void Game::Setup(int w, int h) {
 	m_cameras["Default"] = std::make_shared<Camera>();
 	m_activeCamera = m_cameras["Default"];
 
-}
 
-void Game::Input(SDL_Event* e) {
-
-	while (SDL_PollEvent(e)) {
-		m_activeCamera->HandleMouse(*e);
-		if (e->type == SDL_QUIT)
-			IsDisplayOpen = false;
-	}
-
-	m_activeCamera->MoveCamera();
-
-}
-
-void Game::Run() {
-	
-	SDL_Event e;
-
-	const float clear[] = { 0.1f, 0.45f, 0.9f, 1.0f };
-	
-	m_renderer = std::make_unique<Renderer>();
 	m_world = std::make_unique<World>();
 
 	m_world->Faces.push_back(std::make_shared<Face>(FaceDirection::Top, 2, 1));
@@ -143,6 +123,32 @@ void Game::Run() {
 
 	Texture texture;
 	m_world->TextureID = texture.LoadTextures(TextureIdsAndPaths);
+}
+
+void Game::Input(SDL_Event* e) {
+
+	while (SDL_PollEvent(e)) {
+
+		m_activeCamera->HandleMouse(*e);
+		if (e->type == SDL_KEYDOWN)
+			if (SDL_GetKeyboardState(NULL)[SDL_SCANCODE_ESCAPE])
+				IsDisplayOpen = false;
+		if (e->type == SDL_QUIT)
+			IsDisplayOpen = false;
+	}
+
+	m_activeCamera->MoveCamera();
+
+}
+
+void Game::Run() {
+	
+	SDL_Event e;
+
+	const float clear[] = { 0.1f, 0.45f, 0.9f, 1.0f };
+	
+	m_renderer = std::make_unique<Renderer>();
+
 
 	while (IsDisplayOpen) {
 

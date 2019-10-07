@@ -6,7 +6,7 @@
 class Config {
 public:
 
-    std::string ResourceBase = "/home/ben/programming/Minecraft/resources/";
+	std::string ResourceBase = MC_RESOURCES;
     // std::string ResourceBase = "E:/Games/minecraft/resources/";
 
 };

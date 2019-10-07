@@ -15,7 +15,7 @@ public:
 	void MoveCamera();
 	void MouseMoved(glm::vec2 mouseDelta);
 
-	float MouseSensitivity = 0.0009f;
+	float MouseSensitivity = 0.5f;
 	float CameraSpeed = 0.1f;
 
 private:

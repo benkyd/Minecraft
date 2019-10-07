@@ -5,10 +5,10 @@
 
 struct Block {
 	std::string Name;
-	int ID;
+	int id;
 
-	std::vector<std::pair<int, std::string>> Textures;
-
+public:
+	Block();
 };
 
 static std::vector<std::pair<int, std::string>> TextureIdsAndPaths {

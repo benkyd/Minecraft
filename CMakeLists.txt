@@ -9,6 +9,10 @@ set(executable output)
 set(SrcDIR ./src)
 set(IncludeDIR ./include)
 
+# Setting resource path
+add_definitions(-DMC_RESOURCES="${CMAKE_SOURCE_DIR}/resources/")
+message(${CMAKE_SOURCE_DIR}/resources)
+
 if (UNIX)
 	find_package(SDL2 REQUIRED)
 endif(UNIX)
