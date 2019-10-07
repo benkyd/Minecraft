@@ -11,7 +11,12 @@ struct Block {
 
 };
 
+static std::vector<std::pair<int, std::string>> TextureIdsAndPaths {
+	{0, "dirt.png"},
+	{1, "grass_side.png"},
+	{2, "grass_top.png"}
+};
 
-std::vector<std::shared_ptr> BlockAtlas();
+
 
 #endif

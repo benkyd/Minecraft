@@ -24,7 +24,7 @@ class Logger;
 class Renderer;
 class Camera;
 class World;
-
+	
 class Game {
 public:
 	Game();

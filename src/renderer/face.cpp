@@ -45,6 +45,15 @@ Face::Face(FaceDirection direction, int textureID, int asdf) {
 			{ -0.5f,  0.5f,  0.5f },
 			{ -0.5f, -0.5f,  0.5f },
 		};
+
+			m_uvs = {
+			{ 1.0f, 1.0f },
+			{ 0.0f, 1.0f },
+			{ 0.0f, 0.0f },
+			{ 0.0f, 0.0f },
+			{ 1.0f, 0.0f },
+			{ 1.0f, 1.0f },
+		};
 	}
 	else if (Direction == FaceDirection::Back) {
 		m_verticies = {
@@ -54,6 +63,15 @@ Face::Face(FaceDirection direction, int textureID, int asdf) {
 			{  0.5f,  0.5f, -0.5f },
 			{ -0.5f,  0.5f, -0.5f },
 			{ -0.5f, -0.5f, -0.5f },
+		};
+
+		m_uvs = {
+			{ 1.0f, 1.0f },
+			{ 0.0f, 1.0f },
+			{ 0.0f, 0.0f },
+			{ 0.0f, 0.0f },
+			{ 1.0f, 0.0f },
+			{ 1.0f, 1.0f },
 		};
 	}
 	else if (Direction == FaceDirection::Left) {

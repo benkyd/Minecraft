@@ -12,6 +12,8 @@ public:
 	std::map<std::string, std::shared_ptr<Shader>> Shaders;
 	std::vector<std::shared_ptr<Face>> Faces;
 
+	GLuint TextureID;
+
 };
 
 #endif
