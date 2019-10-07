@@ -12,6 +12,7 @@ Renderer::Renderer() {
 void Renderer::Render(std::shared_ptr<World> world, std::shared_ptr<Camera> camera) {
 
 	for (int i = 0; i < world->Faces.size(); i++) {
+		glBindTexture(GL_TEXTURE_2D_ARRAY, world->TextureID);
 		world->Faces[i]->Render(camera, world->Shaders["Basic"]);
 	}
 

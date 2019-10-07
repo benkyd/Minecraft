@@ -4,13 +4,16 @@
 #include <logger.h>
 
 #include "renderer/renderer.hpp"
+#include "renderer/texture.hpp"
 #include "renderer/shader.hpp"
 #include "renderer/camera.hpp"
 #include "renderer/face.hpp"
 
 #include "world/world.hpp"
+#include "world/block.hpp"
 
 #include "common.hpp"
+#include "config.hpp"
 
 
 Game::Game() {
@@ -127,16 +130,19 @@ void Game::Run() {
 	m_renderer = std::make_unique<Renderer>();
 	m_world = std::make_unique<World>();
 
-	m_world->Faces.push_back(std::make_shared<Face>(FaceDirection::Top, 1, 1));
-	m_world->Faces.push_back(std::make_shared<Face>(FaceDirection::Bottom, 1, 2));
+	m_world->Faces.push_back(std::make_shared<Face>(FaceDirection::Top, 2, 1));
+	m_world->Faces.push_back(std::make_shared<Face>(FaceDirection::Bottom, 0, 2));
 	m_world->Faces.push_back(std::make_shared<Face>(FaceDirection::Right, 1, 3));
 	m_world->Faces.push_back(std::make_shared<Face>(FaceDirection::Left, 1, 4));
 	m_world->Faces.push_back(std::make_shared<Face>(FaceDirection::Front, 1, 5));
 	m_world->Faces.push_back(std::make_shared<Face>(FaceDirection::Back, 1, 6));
 
 	m_world->Shaders["Basic"] = std::make_shared<Shader>();
-	m_world->Shaders["Basic"]->Load("E:/Games/minecraft/resources/shaders/simple");
+	m_world->Shaders["Basic"]->Load(GameConfig.ResourceBase + "shaders/simple");
 	m_world->Shaders["Basic"]->Link();
+
+	Texture texture;
+	m_world->TextureID = texture.LoadTextures(TextureIdsAndPaths);
 
 	while (IsDisplayOpen) {
 
