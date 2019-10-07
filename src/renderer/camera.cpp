@@ -52,32 +52,64 @@ void Camera::HandleMouse(SDL_Event e) {
 void Camera::MoveCamera() {
 	float dx = 0;
 	float dz = 0;
+	float dy = 0;
 
 	const Uint8* state = SDL_GetKeyboardState(NULL);
 
+	// Rotate by camera direction
+	glm::mat2 rotate {
+		cos(yaw), -sin(yaw),
+		sin(yaw), cos(yaw)
+	};
+
+	glm::vec2 f(0.0, 1.0);
+	f = f * rotate;
+
 	if (state[SDL_SCANCODE_W])
-		dz += 2;
+	{
+		dz -= f.y;
+		dx -= f.x;
+	}
 	if (state[SDL_SCANCODE_S])
-		dz += -2;
+	{
+		dz += f.y;
+		dx += f.x;
+	}
 	if (state[SDL_SCANCODE_A])
-		dx += -2;
+	{
+		dz += f.x;
+		dx += -f.y;
+	}
 	if (state[SDL_SCANCODE_D])
-		dx += 2;
+	{
+		dz -= f.x;
+		dx -= -f.y;
+	}
+	if (state[SDL_SCANCODE_SPACE])
+	{
+		dy += 1;
+	}
+	if (state[SDL_SCANCODE_LSHIFT])
+	{
+		dy -= 1;
+	}
 	// if (state[SDL_SCANCODE_Z])
 
 	// if (state[SDL_SCANCODE_LSHIFT])
 
-
 	// get current view matrix
 	glm::mat4 mat = GetViewMatrix();
-	// row major
 	glm::vec3 forward(mat[0][2], mat[1][2], mat[2][2]);
 	glm::vec3 strafe(mat[0][0], mat[1][0], mat[2][0]);
 
+
+
+
 	// forward vector must be negative to look forward. 
 	// read :http://in2gpu.com/2015/05/17/view-matrix/
-	eyeVector += (-dz * forward + dx * strafe) * CameraSpeed;
-
+	eyeVector.x += dx * CameraSpeed;
+	eyeVector.z += dz * CameraSpeed;
+	eyeVector.y += dy * CameraSpeed;
 	// update the view matrix
 	UpdateView();
 }
@@ -85,8 +117,9 @@ void Camera::MoveCamera() {
 void Camera::MouseMoved(glm::vec2 mouseDelta) {
 	// note that yaw and pitch must be converted to radians.
 	// this is done in UpdateView() by glm::rotate
-	yaw += MouseSensitivity * mouseDelta.x;
-	pitch += MouseSensitivity * mouseDelta.y;
+	yaw += MouseSensitivity * (mouseDelta.x/100);
+	pitch += MouseSensitivity * (mouseDelta.y/100);
+	pitch = glm::clamp<float>(pitch, -M_PI/2, M_PI/2);
 
 	UpdateView();
 }
