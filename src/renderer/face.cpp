@@ -4,6 +4,7 @@
 #include "camera.hpp"
 
 Face::Face(FaceDirection direction, int textureID, int asdf) {
+	
 	Direction = direction;
 	Texture = textureID;
 
@@ -17,6 +18,7 @@ Face::Face(FaceDirection direction, int textureID, int asdf) {
 	};
 
 	if (Direction == FaceDirection::Top) {
+
 		m_verticies = {
 			{ -0.5f,  0.5f, -0.5f },
 			{  0.5f,  0.5f, -0.5f },
@@ -25,8 +27,9 @@ Face::Face(FaceDirection direction, int textureID, int asdf) {
 			{ -0.5f,  0.5f,  0.5f },
 			{ -0.5f,  0.5f, -0.5f },
 		};
-	}
-	else if (Direction == FaceDirection::Bottom) {
+
+	} else if (Direction == FaceDirection::Bottom) {
+	
 		m_verticies = {
 			{ -0.5f, -0.5f, -0.5f },
 			{  0.5f, -0.5f, -0.5f },
@@ -35,8 +38,9 @@ Face::Face(FaceDirection direction, int textureID, int asdf) {
 			{ -0.5f, -0.5f,  0.5f },
 			{ -0.5f, -0.5f, -0.5f },
 		};
-	}
-	else if (Direction == FaceDirection::Front) {
+	
+	} else if (Direction == FaceDirection::Front) {
+	
 		m_verticies = {
 			{ -0.5f, -0.5f,  0.5f },
 			{  0.5f, -0.5f,  0.5f },
@@ -46,7 +50,7 @@ Face::Face(FaceDirection direction, int textureID, int asdf) {
 			{ -0.5f, -0.5f,  0.5f },
 		};
 
-			m_uvs = {
+		m_uvs = {
 			{ 1.0f, 1.0f },
 			{ 0.0f, 1.0f },
 			{ 0.0f, 0.0f },
@@ -54,8 +58,9 @@ Face::Face(FaceDirection direction, int textureID, int asdf) {
 			{ 1.0f, 0.0f },
 			{ 1.0f, 1.0f },
 		};
-	}
-	else if (Direction == FaceDirection::Back) {
+	
+	} else if (Direction == FaceDirection::Back) {
+	
 		m_verticies = {
 			{ -0.5f, -0.5f, -0.5f },
 			{  0.5f, -0.5f, -0.5f },
@@ -73,8 +78,9 @@ Face::Face(FaceDirection direction, int textureID, int asdf) {
 			{ 1.0f, 0.0f },
 			{ 1.0f, 1.0f },
 		};
-	}
-	else if (Direction == FaceDirection::Left) {
+	
+	} else if (Direction == FaceDirection::Left) {
+	
 		m_verticies = {
 			{ -0.5f,  0.5f,  0.5f },
 			{ -0.5f,  0.5f, -0.5f },
@@ -83,7 +89,9 @@ Face::Face(FaceDirection direction, int textureID, int asdf) {
 			{ -0.5f, -0.5f,  0.5f },
 			{ -0.5f,  0.5f,  0.5f },
 		};
+	
 	} else if (Direction == FaceDirection::Right) {
+	
 		m_verticies = {
 			{  0.5f,  0.5f,  0.5f },
 			{  0.5f,  0.5f, -0.5f },
@@ -92,6 +100,7 @@ Face::Face(FaceDirection direction, int textureID, int asdf) {
 			{  0.5f, -0.5f,  0.5f },
 			{  0.5f,  0.5f,  0.5f },
 		};
+	
 	}
 
 	m_vao = asdf;
@@ -105,7 +114,9 @@ Face::Face(FaceDirection direction, int textureID, int asdf) {
 	std::vector<glm::vec3> uvs;
 	
 	for (auto& uv : m_uvs) {
+	
 		uvs.push_back({ uv.x, uv.y, textureID });
+	
 	}
 
 	std::vector<glm::vec3> data;
@@ -120,7 +131,7 @@ Face::Face(FaceDirection direction, int textureID, int asdf) {
 	glEnableVertexAttribArray(1);
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, (const void*)(m_verticies.size() * sizeof(glm::vec3)));
 
-	glBindVertexArray(m_vao);
+	glBindVertexArray(0);
 
 }
 

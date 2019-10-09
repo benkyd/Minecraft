@@ -97,6 +97,7 @@ void Game::Setup(int w, int h) {
 
 	Texture texture;
 	m_world->TextureID = texture.LoadTextures(TextureIdsAndPaths);
+	
 }
 
 void Game::Input(SDL_Event* e) {
@@ -106,11 +107,23 @@ void Game::Input(SDL_Event* e) {
 	while (SDL_PollEvent(e)) {
 
 		m_activeCamera->HandleMouse(*e);
-		if (e->type == SDL_KEYDOWN)
-			if (state[SDL_SCANCODE_ESCAPE])
+
+		if (e->type == SDL_KEYDOWN) {
+			
+			if (state[SDL_SCANCODE_ESCAPE]) {
+				
 				IsDisplayOpen = false;
-		if (e->type == SDL_QUIT)
+
+			}
+
+		}
+	
+		if (e->type == SDL_QUIT) {
+			
 			IsDisplayOpen = false;
+
+		}
+	
 	}
 
 	m_activeCamera->MoveCamera(state);
