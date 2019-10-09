@@ -42,7 +42,6 @@ include_directories(${executable}
 file(GLOB SourceFiles 
 	${SrcDIR}/*
 	${SrcDIR}/util/*
-	${SrcDIR}/util/imgui/*
 	${SrcDIR}/game/*
 	${SrcDIR}/renderer/*
 )

@@ -72,33 +72,7 @@ void Game::Setup(int w, int h) {
 	gladLoadGLLoader(SDL_GL_GetProcAddress);
 	glEnable(GL_MULTISAMPLE);
 	glEnable(GL_DEPTH_TEST);
-	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-
-#ifdef __IMGUI
-	IMGUI_CHECKVERSION();
-	ImGui::CreateContext();
-	ImGui::StyleColorsDark();
-	// ImGui_ImplSDL2_InitForOpenGL(m_window, m_glContext);
-
-	ImGuiIO& io = ImGui::GetIO();
-
-	ImVec2 vec;
-	vec.x = (float)w;
-	vec.y = (float)h;
-	io.DisplaySize = vec;
-
-	vec.x = w > 0 ? ((float)w / w) : 0;
-	vec.y = h > 0 ? ((float)h / h) : 0;
-	io.DisplayFramebufferScale = vec;
-	io.Fonts->AddFontDefault();
-
-	unsigned char* pixels;
-	int width, height, bytes_per_pixels;
-	io.Fonts->GetTexDataAsRGBA32(&pixels, &width, &height, &bytes_per_pixels);
-
-	ImGui_ImplOpenGL3_Init("#version 450");
-#endif
-
+	// glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	
 	*m_logger << LOGGER_INFO << "Loaded OpenGL" << LOGGER_ENDL;
 	*m_logger << LOGGER_ENDL;
@@ -153,24 +127,12 @@ void Game::Run() {
 	while (IsDisplayOpen) {
 
 		Input(&e);
-		
-#ifdef __IMGUI
-		ImGui::NewFrame();
 
-		ImGui::Begin("bruh");
-		ImGui::Text("Hello, world %d", 123);
-		if (ImGui::Button("Save")) {}
-		ImGui::End();
-#endif
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glClearBufferfv(GL_COLOR, 0, clear);
 
 		m_renderer->Render(m_world , m_activeCamera);
 
-#ifdef __IMGUI
-		ImGui::Render();
-		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-#endif
 		SDL_GL_SwapWindow(m_window);
 
 	}
