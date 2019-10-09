@@ -12,7 +12,7 @@ public:
 	glm::vec3 GetPos();
 
 	void HandleMouse(SDL_Event e);
-	void MoveCamera();
+	void MoveCamera(Uint8* state);
 	void MouseMoved(glm::vec2 mouseDelta);
 
 	float MouseSensitivity = 0.1f;

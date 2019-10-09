@@ -28,11 +28,12 @@ GLuint Texture::LoadTextures(std::vector<std::pair<int, std::string>> textures) 
         int cR = 0;
 
         unsigned char* texture = stbi_load(path.c_str(), &xR, &yR, &cR, STBI_rgb_alpha);
-        logger << LOGGER_INFO << "Texture at '" << path << "' Loaded..." << LOGGER_ENDL;
 
 		memcpy(texels + (i * x * y * 4), texture, x * y * 4);
 
 		stbi_image_free(texture);
+        logger << LOGGER_INFO << "Texture at '" << path << "' Loaded..." << LOGGER_ENDL;
+        
     }
 
 

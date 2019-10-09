@@ -101,17 +101,19 @@ void Game::Setup(int w, int h) {
 
 void Game::Input(SDL_Event* e) {
 
+	Uint8* state = (Uint8*)SDL_GetKeyboardState(NULL);
+
 	while (SDL_PollEvent(e)) {
 
 		m_activeCamera->HandleMouse(*e);
 		if (e->type == SDL_KEYDOWN)
-			if (SDL_GetKeyboardState(NULL)[SDL_SCANCODE_ESCAPE])
+			if (state[SDL_SCANCODE_ESCAPE])
 				IsDisplayOpen = false;
 		if (e->type == SDL_QUIT)
 			IsDisplayOpen = false;
 	}
 
-	m_activeCamera->MoveCamera();
+	m_activeCamera->MoveCamera(state);
 
 }
 

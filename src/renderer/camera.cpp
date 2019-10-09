@@ -49,12 +49,10 @@ void Camera::HandleMouse(SDL_Event e) {
 	MouseMoved(mouseDelta);
 }
 
-void Camera::MoveCamera() {
+void Camera::MoveCamera(Uint8* state) {
 	float dx = 0;
 	float dz = 0;
 	float dy = 0;
-
-	const Uint8* state = SDL_GetKeyboardState(NULL);
 
 	// Rotate by camera direction
 	glm::mat2 rotate {
@@ -65,45 +63,33 @@ void Camera::MoveCamera() {
 	glm::vec2 f(0.0, 1.0);
 	f = f * rotate;
 
-	if (state[SDL_SCANCODE_W])
-	{
+	if (state[SDL_SCANCODE_W]) {
 		dz -= f.y;
 		dx -= f.x;
 	}
-	if (state[SDL_SCANCODE_S])
-	{
+	if (state[SDL_SCANCODE_S]) {
 		dz += f.y;
 		dx += f.x;
 	}
-	if (state[SDL_SCANCODE_A])
-	{
+	if (state[SDL_SCANCODE_A]) {
 		dz += f.x;
 		dx += -f.y;
 	}
-	if (state[SDL_SCANCODE_D])
-	{
+	if (state[SDL_SCANCODE_D]) {
 		dz -= f.x;
 		dx -= -f.y;
 	}
-	if (state[SDL_SCANCODE_SPACE])
-	{
+	if (state[SDL_SCANCODE_SPACE]) {
 		dy += 1;
 	}
-	if (state[SDL_SCANCODE_LSHIFT])
-	{
+	if (state[SDL_SCANCODE_LSHIFT]) {
 		dy -= 1;
 	}
-	// if (state[SDL_SCANCODE_Z])
-
-	// if (state[SDL_SCANCODE_LSHIFT])
 
 	// get current view matrix
 	glm::mat4 mat = GetViewMatrix();
 	glm::vec3 forward(mat[0][2], mat[1][2], mat[2][2]);
 	glm::vec3 strafe(mat[0][0], mat[1][0], mat[2][0]);
-
-
-
 
 	// forward vector must be negative to look forward. 
 	// read :http://in2gpu.com/2015/05/17/view-matrix/
