@@ -7,7 +7,7 @@
 #include "renderer/texture.hpp"
 #include "renderer/shader.hpp"
 #include "renderer/camera.hpp"
-#include "renderer/face.hpp"
+#include "renderer/voxel.hpp"
 
 #include "world/world.hpp"
 #include "world/block.hpp"
@@ -78,18 +78,21 @@ void Game::Setup(int w, int h) {
 	*m_logger << LOGGER_ENDL;
 	IsDisplayOpen = true;
 
-	m_cameras["Default"] = std::make_shared<Camera>();
+	m_cameras["Default"] = std::make_shared<Camera>(w, h);
 	m_activeCamera = m_cameras["Default"];
 
 
 	m_world = std::make_unique<World>();
 
-	m_world->Faces.push_back(std::make_shared<Face>(FaceDirection::Top, 2, 1));
-	m_world->Faces.push_back(std::make_shared<Face>(FaceDirection::Bottom, 0, 2));
-	m_world->Faces.push_back(std::make_shared<Face>(FaceDirection::Right, 1, 3));
-	m_world->Faces.push_back(std::make_shared<Face>(FaceDirection::Left, 1, 4));
-	m_world->Faces.push_back(std::make_shared<Face>(FaceDirection::Front, 1, 5));
-	m_world->Faces.push_back(std::make_shared<Face>(FaceDirection::Back, 1, 6));
+	m_world->Voxels.push_back(std::make_shared<Voxel>(0, 0, 0));
+	//m_world->Voxels.push_back(std::make_shared<Voxel>(1, 0, 0));
+	//m_world->Voxels.push_back(std::make_shared<Voxel>(-1, 0, 0));
+	//m_world->Voxels.push_back(std::make_shared<Voxel>(0, 0, 1));
+	//m_world->Voxels.push_back(std::make_shared<Voxel>(0, 0, -1));
+	//m_world->Voxels.push_back(std::make_shared<Voxel>(-1, 0, -1));
+	//m_world->Voxels.push_back(std::make_shared<Voxel>(-1, 0, 1));
+	//m_world->Voxels.push_back(std::make_shared<Voxel>(1, 0, 1));
+	//m_world->Voxels.push_back(std::make_shared<Voxel>(1, 0, -1));
 
 	m_world->Shaders["Basic"] = std::make_shared<Shader>();
 	m_world->Shaders["Basic"]->Load(GameConfig.ResourceBase + "shaders/simple");
