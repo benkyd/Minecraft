@@ -1,6 +1,9 @@
 #include "camera.hpp"
 
-Camera::Camera() {
+Camera::Camera(int w, int h) {
+
+	projMatrix = glm::perspective(glm::radians(45.0f), (float)w / float(h), 0.1f, 1000.0f);
+
 	roll = 0.0f;
 	pitch = 0.0f;
 	yaw = 0.0f;
@@ -30,6 +33,10 @@ void Camera::UpdateView() {
 
 glm::mat4 Camera::GetViewMatrix() {
 	return viewMatrix;
+}
+
+glm::mat4 Camera::GetProjectionMatrix() {
+	return projMatrix;
 }
 
 glm::vec3 Camera::GetPos() {

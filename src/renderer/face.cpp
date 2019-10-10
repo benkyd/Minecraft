@@ -3,7 +3,7 @@
 #include "shader.hpp"
 #include "camera.hpp"
 
-Face::Face(FaceDirection direction, int textureID, int asdf) {
+Face::Face(FaceDirection direction, int textureID) {
 	
 	Direction = direction;
 	Texture = textureID;
@@ -103,8 +103,6 @@ Face::Face(FaceDirection direction, int textureID, int asdf) {
 	
 	}
 
-	m_vao = asdf;
-
 	glGenVertexArrays(1, &m_vao);
 	glBindVertexArray(m_vao);
 
@@ -135,29 +133,18 @@ Face::Face(FaceDirection direction, int textureID, int asdf) {
 
 }
 
-void Face::GetMesh(std::vector<glm::vec3>& verts, std::vector<glm::vec2>& uvs) {
+void Face::GetMesh(std::vector<glm::vec3>& verts, std::vector<glm::vec3>& uvs) {
 
-}
+	verts = m_verticies;
 
-void Face::Render(std::shared_ptr<Camera> camera, std::shared_ptr<Shader> shader) {
+	std::vector<glm::vec3> UVs;
 
-	shader->Use();
-	glBindVertexArray(m_vao);
+	for (auto& uv : m_uvs) {
 
-	glm::mat4 model = glm::mat4(1.0f);
-	GLint uniTrans = glGetUniformLocation(shader->Program, "model");
-	glUniformMatrix4fv(uniTrans, 1, GL_FALSE, glm::value_ptr(model));
+		UVs.push_back({ uv.x, uv.y, (float)Texture });
 
-	GLint uniView = glGetUniformLocation(shader->Program, "view");
-	glUniformMatrix4fv(uniView, 1, GL_FALSE, glm::value_ptr(camera->GetViewMatrix()));
+	}
 
-	// Projection matrice
-	glm::mat4 proj = glm::perspective(glm::radians(45.0f), 1080.0f / 720.0f, 0.1f, 1000.0f);
-	// Get uniform and send it to the GPU
-	GLint uniProj = glGetUniformLocation(shader->Program, "proj");
-	glUniformMatrix4fv(uniProj, 1, GL_FALSE, glm::value_ptr(proj));
-
-
-	glDrawArrays(GL_TRIANGLES, 0, m_verticies.size());
+	uvs = UVs;
 
 }

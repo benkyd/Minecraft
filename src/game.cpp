@@ -34,7 +34,7 @@ void Game::Setup(int w, int h) {
 #endif
 
 	*m_logger << LOGGER_INFO << "Initializing display" << LOGGER_ENDL;
-	SDL_Init(SDL_INIT_EVERYTHING);
+	SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
 
 	SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8);
 	SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 8);

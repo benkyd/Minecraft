@@ -5,10 +5,11 @@
 
 class Camera {
 public:
-	Camera();
+	Camera(int w, int h);
 
 	void UpdateView();
 	glm::mat4 GetViewMatrix();
+	glm::mat4 GetProjectionMatrix();
 	glm::vec3 GetPos();
 
 	void HandleMouse(SDL_Event e);
@@ -21,7 +22,10 @@ public:
 private:
 	float roll, pitch, yaw;
 	glm::vec3 eyeVector = {};
+
 	glm::mat4 viewMatrix = {};
+	glm::mat4 projMatrix = {};
+
 };
 
 #endif
