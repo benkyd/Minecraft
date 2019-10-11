@@ -3,10 +3,10 @@
 
 #include "../common.hpp"
 
+#include "face.hpp"
+
 class Camera;
 class Shader;
-
-class Face;
 
 class Voxel {
 public:
@@ -15,6 +15,8 @@ public:
 	void Render(std::shared_ptr<Camera> camera, std::shared_ptr<Shader> shader);
 
 private:
+
+	std::vector<Face> m_faces;
 
 	GLuint m_vao = 0;
 	GLuint m_vbo = 0;

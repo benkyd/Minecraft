@@ -85,14 +85,14 @@ void Game::Setup(int w, int h) {
 	m_world = std::make_unique<World>();
 
 	m_world->Voxels.push_back(std::make_shared<Voxel>(0, 0, 0));
-	//m_world->Voxels.push_back(std::make_shared<Voxel>(1, 0, 0));
-	//m_world->Voxels.push_back(std::make_shared<Voxel>(-1, 0, 0));
-	//m_world->Voxels.push_back(std::make_shared<Voxel>(0, 0, 1));
-	//m_world->Voxels.push_back(std::make_shared<Voxel>(0, 0, -1));
-	//m_world->Voxels.push_back(std::make_shared<Voxel>(-1, 0, -1));
-	//m_world->Voxels.push_back(std::make_shared<Voxel>(-1, 0, 1));
-	//m_world->Voxels.push_back(std::make_shared<Voxel>(1, 0, 1));
-	//m_world->Voxels.push_back(std::make_shared<Voxel>(1, 0, -1));
+	m_world->Voxels.push_back(std::make_shared<Voxel>(1, 0, 0));
+	m_world->Voxels.push_back(std::make_shared<Voxel>(-1, 0, 0));
+	m_world->Voxels.push_back(std::make_shared<Voxel>(0, 0, 1));
+	m_world->Voxels.push_back(std::make_shared<Voxel>(0, 0, -1));
+	m_world->Voxels.push_back(std::make_shared<Voxel>(-1, 0, -1));
+	m_world->Voxels.push_back(std::make_shared<Voxel>(-1, 0, 1));
+	m_world->Voxels.push_back(std::make_shared<Voxel>(1, 0, 1));
+	m_world->Voxels.push_back(std::make_shared<Voxel>(1, 0, -1));
 
 	m_world->Shaders["Basic"] = std::make_shared<Shader>();
 	m_world->Shaders["Basic"]->Load(GameConfig.ResourceBase + "shaders/simple");
