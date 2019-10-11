@@ -111,22 +111,32 @@ void Game::Input(SDL_Event* e) {
 
 		m_activeCamera->HandleMouse(*e);
 
-		if (e->type == SDL_KEYDOWN) {
-			
-			if (state[SDL_SCANCODE_ESCAPE]) {
-				
+		switch (e->type) {
+
+			case SDL_KEYDOWN:
+			{
+
+				if (state[SDL_SCANCODE_ESCAPE]) {
+					
+					IsDisplayOpen = false;
+
+				}
+
+				break;
+
+			}
+
+			case SDL_QUIT: 
+			{
+
 				IsDisplayOpen = false;
+
+				break;
 
 			}
 
 		}
-	
-		if (e->type == SDL_QUIT) {
-			
-			IsDisplayOpen = false;
 
-		}
-	
 	}
 
 	m_activeCamera->MoveCamera(state);
