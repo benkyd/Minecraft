@@ -7,7 +7,7 @@
 #include "renderer/texture.hpp"
 #include "renderer/shader.hpp"
 #include "renderer/camera.hpp"
-#include "renderer/voxel.hpp"
+#include "renderer/chunk.hpp"
 
 #include "world/world.hpp"
 #include "world/block.hpp"
@@ -84,15 +84,7 @@ void Game::Setup(int w, int h) {
 
 	m_world = std::make_unique<World>();
 
-	m_world->Voxels.push_back(std::make_shared<Voxel>(0, 0, 0));
-	m_world->Voxels.push_back(std::make_shared<Voxel>(1, 0, 0));
-	m_world->Voxels.push_back(std::make_shared<Voxel>(-1, 0, 0));
-	m_world->Voxels.push_back(std::make_shared<Voxel>(0, 0, 1));
-	m_world->Voxels.push_back(std::make_shared<Voxel>(0, 0, -1));
-	m_world->Voxels.push_back(std::make_shared<Voxel>(-1, 0, -1));
-	m_world->Voxels.push_back(std::make_shared<Voxel>(-1, 0, 1));
-	m_world->Voxels.push_back(std::make_shared<Voxel>(1, 0, 1));
-	m_world->Voxels.push_back(std::make_shared<Voxel>(1, 0, -1));
+	m_world->Chunks.push_back(std::make_shared<Chunk>());
 
 	m_world->Shaders["Basic"] = std::make_shared<Shader>();
 	m_world->Shaders["Basic"]->Load(GameConfig.ResourceBase + "shaders/simple");
@@ -150,7 +142,6 @@ void Game::Run() {
 	const float clear[] = { 0.1f, 0.45f, 0.9f, 1.0f };
 	
 	m_renderer = std::make_unique<Renderer>();
-
 
 	while (IsDisplayOpen) {
 

@@ -4,13 +4,13 @@
 #include "../common.hpp"
 
 class Shader;
-class Voxel;
+class Chunk;
 
 class World {
 public:
 
 	std::map<std::string, std::shared_ptr<Shader>> Shaders;
-	std::vector<std::shared_ptr<Voxel>> Voxels;
+	std::vector<std::shared_ptr<Chunk>> Chunks;
 
 	GLuint TextureID;
 
