@@ -3,9 +3,9 @@
 
 #include "../common.hpp"
 
-#define CHUNK_HEIGHT 1
-#define CHUNK_WIDTH  1
-#define CHUNK_DEPTH  1
+#define CHUNK_HEIGHT 10
+#define CHUNK_WIDTH  10
+#define CHUNK_DEPTH  10
 
 class Camera;
 class Shader;

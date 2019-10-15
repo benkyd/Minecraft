@@ -22,6 +22,7 @@ private:
 
 	std::vector<glm::vec3> m_vertices;
 	std::vector<glm::vec3> m_uvs;
+
 };
 
 #endif

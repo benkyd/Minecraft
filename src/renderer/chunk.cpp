@@ -7,10 +7,12 @@
 
 Chunk::Chunk() {
 
+	m_model = glm::mat4(1.0f);
+
 	for (int x = 0; x < CHUNK_WIDTH; x++)
 	for (int y = 0; y < CHUNK_HEIGHT; y++)
 	for (int z = 0; z < CHUNK_HEIGHT; z++) {
-	
+
 		Voxels.push_back(std::make_shared<Voxel>(x, y, z));
 
 	}
@@ -23,6 +25,7 @@ Chunk::Chunk() {
 
 Chunk::Chunk(std::vector<std::shared_ptr<Voxel>> voxels) {
 
+	m_model = glm::mat4(1.0f);
 	Voxels = voxels;
 	m_mesh();
 
@@ -57,8 +60,8 @@ void Chunk::m_mesh() {
 
 	for (auto& voxel : Voxels) {
 
-		std::vector<glm::vec3>tempVerts;
-		std::vector<glm::vec3>tempUVs;
+		std::vector<glm::vec3> tempVerts;
+		std::vector<glm::vec3> tempUVs;
 
 		voxel->GetMesh(tempVerts, tempUVs);
 		
