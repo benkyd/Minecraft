@@ -18,8 +18,6 @@ public:
 
 private:
 
-	glm::mat4 m_model;
-
 	std::vector<glm::vec3> m_vertices;
 	std::vector<glm::vec3> m_uvs;
 

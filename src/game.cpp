@@ -71,6 +71,7 @@ void Game::Setup(int w, int h) {
 	// Load OpenGL
 	gladLoadGLLoader(SDL_GL_GetProcAddress);
 	glEnable(GL_MULTISAMPLE);
+	glCullFace(GL_BACK);
 	glEnable(GL_DEPTH_TEST);
 	// glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	

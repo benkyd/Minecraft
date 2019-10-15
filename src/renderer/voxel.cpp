@@ -7,17 +7,6 @@
 
 
 Voxel::Voxel(int x, int y, int z) {
-	
-	m_model = glm::translate(glm::mat4(1.0f), { (float)x, (float)y, (float)z });
-
-	// glm::mat4 Matrix = {
-	// 	{1, 3, 0, 0},
-	// 	{0, 1, 0, 0},
-	// 	{0, 0, 1, 0},
-	// 	{0, 0, 0, 1},
-	// };
-
-	// m_model = Matrix * m_model;
 
 	// Texture winding order - top, bottom, left, right, front, back
 	
@@ -42,11 +31,9 @@ Voxel::Voxel(int x, int y, int z) {
 
 	for (int i = 0; i < m_vertices.size(); i++) {
 
-		glm::vec4 tmp = { m_vertices[i], 1 };
-
-		glm::vec4 res = tmp * m_model;
-
-		m_vertices[i] = { res.x, res.y, res.z };
+		m_vertices[i].x += x;
+		m_vertices[i].y += y;
+		m_vertices[i].z += z;
 
 	}
 
