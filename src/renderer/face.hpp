@@ -3,33 +3,112 @@
 
 #include "../common.hpp"
 
-class Camera;
-class Shader;
-
-enum FaceDirection {
-	Top,
-	Bottom,
-	Front,
-	Back,
-	Left,
-	Right
+std::vector<glm::vec3> CubeTopFace = {
+	{ -0.5f,  0.5f, -0.5f },
+	{  0.5f,  0.5f, -0.5f },
+	{  0.5f,  0.5f,  0.5f },
+	{  0.5f,  0.5f,  0.5f },
+	{ -0.5f,  0.5f,  0.5f },
+	{ -0.5f,  0.5f, -0.5f }
 };
 
-class Face {
-public:
-	Face(FaceDirection direction, int textureID);
-	
-	void GetMesh(std::vector<glm::vec3>& verts, std::vector<glm::vec3>& uvs);
+std::vector<glm::vec2> CubeTopFaceUVs = {
+	{ 0.0f, 0.0f },
+	{ 1.0f, 0.0f },
+	{ 1.0f, 1.0f },
+	{ 1.0f, 1.0f },
+	{ 0.0f, 1.0f },
+	{ 0.0f, 0.0f }
+};
 
-	int Texture = 0;
+std::vector<glm::vec3> CubeBottomFace = {
+	{ -0.5f, -0.5f, -0.5f },
+	{  0.5f, -0.5f, -0.5f },
+	{  0.5f, -0.5f,  0.5f },
+	{  0.5f, -0.5f,  0.5f },
+	{ -0.5f, -0.5f,  0.5f },
+	{ -0.5f, -0.5f, -0.5f }
+};
 
-	FaceDirection Direction = FaceDirection::Top;
+std::vector<glm::vec2> CubeBottomFaceUVs = {
+	{ 0.0f, 0.0f },
+	{ 1.0f, 0.0f },
+	{ 1.0f, 1.0f },
+	{ 1.0f, 1.0f },
+	{ 0.0f, 1.0f },
+	{ 0.0f, 0.0f }
+};
 
-private:
+std::vector<glm::vec3> CubeFrontFace = {
+	{ -0.5f, -0.5f,  0.5f },
+	{  0.5f, -0.5f,  0.5f },
+	{  0.5f,  0.5f,  0.5f },
+	{  0.5f,  0.5f,  0.5f },
+	{ -0.5f,  0.5f,  0.5f },
+	{ -0.5f, -0.5f,  0.5f }
+};
 
-	std::vector<glm::vec3> m_vertices;
-	std::vector<glm::vec2> m_uvs;
+std::vector<glm::vec2> CubeFrontFaceUVs = {
+	{ 1.0f, 1.0f },
+	{ 0.0f, 1.0f },
+	{ 0.0f, 0.0f },
+	{ 0.0f, 0.0f },
+	{ 1.0f, 0.0f },
+	{ 1.0f, 1.0f }
+};
 
+std::vector<glm::vec3> CubeBackFace = {
+	{ -0.5f, -0.5f, -0.5f },
+	{  0.5f, -0.5f, -0.5f },
+	{  0.5f,  0.5f, -0.5f },
+	{  0.5f,  0.5f, -0.5f },
+	{ -0.5f,  0.5f, -0.5f },
+	{ -0.5f, -0.5f, -0.5f }
+};
+
+std::vector<glm::vec2> CubeBackFaceUVs = {
+	{ 1.0f, 1.0f },
+	{ 0.0f, 1.0f },
+	{ 0.0f, 0.0f },
+	{ 0.0f, 0.0f },
+	{ 1.0f, 0.0f },
+	{ 1.0f, 1.0f }
+};
+
+std::vector<glm::vec3> CubeLeftFace = {
+	{ -0.5f,  0.5f,  0.5f },
+	{ -0.5f,  0.5f, -0.5f },
+	{ -0.5f, -0.5f, -0.5f },
+	{ -0.5f, -0.5f, -0.5f },
+	{ -0.5f, -0.5f,  0.5f },
+	{ -0.5f,  0.5f,  0.5f }
+};
+
+std::vector<glm::vec2> CubeLeftFaceUVs = {
+	{ 0.0f, 0.0f },
+	{ 1.0f, 0.0f },
+	{ 1.0f, 1.0f },
+	{ 1.0f, 1.0f },
+	{ 0.0f, 1.0f },
+	{ 0.0f, 0.0f }
+};
+
+std::vector<glm::vec3> CubeRightFace = {
+	{  0.5f,  0.5f,  0.5f },
+	{  0.5f,  0.5f, -0.5f },
+	{  0.5f, -0.5f, -0.5f },
+	{  0.5f, -0.5f, -0.5f },
+	{  0.5f, -0.5f,  0.5f },
+	{  0.5f,  0.5f,  0.5f },
+};
+
+std::vector<glm::vec2> CubeRightFaceUVs = {
+	{ 0.0f, 0.0f },
+	{ 1.0f, 0.0f },
+	{ 1.0f, 1.0f },
+	{ 1.0f, 1.0f },
+	{ 0.0f, 1.0f },
+	{ 0.0f, 0.0f }
 };
 
 #endif

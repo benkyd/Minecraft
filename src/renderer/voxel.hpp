@@ -14,8 +14,6 @@ public:
 
 	void GetMesh(std::vector<glm::vec3>& verts, std::vector<glm::vec3>& uvs);
 
-	std::vector<Face> Faces;
-
 private:
 
 	std::vector<glm::vec3> m_vertices;

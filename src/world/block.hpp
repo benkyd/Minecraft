@@ -3,13 +3,43 @@
 
 #include "../common.hpp"
 
+
+namespace EBlockType {
+
+	enum Block : uint8_t {
+
+		Air = 0,
+		Dirt,
+		Grass
+
+	};
+
+}
+
+namespace EFaceTexture {
+
+	enum Texture : uint16_t {
+
+		Air = 0,
+		Dirt,
+		GrassSide,
+		Grass
+
+	};
+
+}
+
 class CBlockEntry {
 public:
 	uint8_t ID;
+	// Texture winding order - top, bottom, left, right, front, back
+	std::vector<uint16_t> FaceTextures;
 	
 };
 
 // TODO: Make design of the class data oriented
+// ie, import all the data used in the build from
+// files and that
 class CBlockDictionary {
 public:
 
@@ -26,8 +56,10 @@ public:
 
 private:
 
-	void registerTexture();
-	void registerBlock();
+	// Expects textures to be inserted in order, 0-...
+	void registerTexture(std::string texture);
+	
+	void registerBlock(EBlockType::Block block, std::vector<uint16_t> faceTextures);
 
 };
 
