@@ -7,7 +7,7 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "../util/stb_image.hpp"
 
-GLuint Texture::LoadTextures(std::vector<std::pair<int, std::string>> textures) {
+GLuint Texture::LoadTextures(std::vector<std::string> textures) {
 
     Logger logger;
 
@@ -21,7 +21,7 @@ GLuint Texture::LoadTextures(std::vector<std::pair<int, std::string>> textures) 
 
     for (int i = 0; i < layers; i++) {
 
-        std::string path = basePath + textures[i].second;
+        std::string path = basePath + textures[i];
 
         int xR = 0;
         int yR = 0;
@@ -35,7 +35,6 @@ GLuint Texture::LoadTextures(std::vector<std::pair<int, std::string>> textures) 
         logger << LOGGER_INFO << "Texture at '" << path << "' Loaded..." << LOGGER_ENDL;
         
     }
-
 
 	GLuint textureArray = 0;
 

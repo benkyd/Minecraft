@@ -3,9 +3,9 @@
 
 #include "../common.hpp"
 
-#define CHUNK_HEIGHT 10
-#define CHUNK_WIDTH  10
-#define CHUNK_DEPTH  10
+#define CHUNK_HEIGHT 32
+#define CHUNK_WIDTH  16
+#define CHUNK_DEPTH  16
 
 class Camera;
 class Shader;
@@ -15,15 +15,17 @@ class Voxel;
 class Chunk {
 public:
 
-	Chunk();
+	Chunk(int x, int z);
 	Chunk(std::vector<std::shared_ptr<Voxel>> voxels);
 
 	void Render(std::shared_ptr<Camera> camera, std::shared_ptr<Shader> shader);
 
 	void Update();
 
-	// Indexed sequentially [x + WIDTH * (y + HEIGHT * z)] = voxel
-	std::vector<std::shared_ptr<Voxel>> Voxels;
+	// Indexed sequentially [x + WIDTH * (y + HEIGHT * z)] = voxelID
+	// the voxel id is used to index the block dictionary to get properties
+	// to generate a mesh and send it to the GPU
+	std::vector<uint8_t> Voxels;
 
 private:
 

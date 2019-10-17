@@ -1,4 +1,4 @@
-#version 330
+#version 450
 
 in vec3 TexCoord;
 

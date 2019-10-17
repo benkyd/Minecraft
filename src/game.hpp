@@ -12,7 +12,6 @@
 #include <string>
 #include <map>
 
-
 #if _WIN32
 #include <SDL.h>
 #else

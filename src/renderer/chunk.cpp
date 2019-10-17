@@ -5,13 +5,15 @@
 
 #include "voxel.hpp"
 
-Chunk::Chunk() {
+Chunk::Chunk(int x, int z) {
 
-	m_model = glm::mat4(1.0f);
+	m_model = glm::translate(glm::mat4(1.0f), { x * CHUNK_WIDTH, 0, z * CHUNK_DEPTH });
+
+	
 
 	for (int x = 0; x < CHUNK_WIDTH; x++)
 	for (int y = 0; y < CHUNK_HEIGHT; y++)
-	for (int z = 0; z < CHUNK_HEIGHT; z++) {
+	for (int z = 0; z < CHUNK_DEPTH; z++) {
 
 		Voxels.push_back(std::make_shared<Voxel>(x, y, z));
 
