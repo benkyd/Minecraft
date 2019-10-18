@@ -16,20 +16,18 @@ Chunk::Chunk(int x, int z) {
 	for (int y = 0; y < CHUNK_HEIGHT; y++)
 	for (int z = 0; z < CHUNK_DEPTH; z++) {
 
-		// Grass on the top layer
-		// if (y == CHUNK_HEIGHT - 1) {
+		 // Grass on the top layer
+		 if (y == CHUNK_HEIGHT - 1) {
 
 			Voxels.push_back((uint8_t)EBlockType::Grass);
 		
-		// } else {
+		 } else {
 			
-			// Voxels.push_back((uint8_t)EBlockType::Dirt);
+			 Voxels.push_back((uint8_t)EBlockType::Dirt);
 
-		// }
+		 }
 
 	}
-
-	std::cout << Voxels.size() << " voxels" << std::endl;
 
 	m_mesh();
 
@@ -85,11 +83,7 @@ void Chunk::m_mesh() {
 		std::vector<glm::vec3> tempVerts;
 		std::vector<glm::vec3> tempUVs;
 
-		std::cout << x << " " << y << " " << z << std::endl;
-
 		uint8_t block = BlockAt(x, y, z);
-
-		std::cout << "Block ID " << (int)block << std::endl;
 
 		Voxel tmp({x, y, z}, BlockAt(x, y, z));
 
@@ -100,8 +94,10 @@ void Chunk::m_mesh() {
 		tmp.AddFace(EFaceType::Front);
 		tmp.AddFace(EFaceType::Back);
 
-		for (auto& uv : tempUVs)
-			m_uvs.push_back(uv);
+		tmp.GetMesh(tempVerts, tempUVs);
+
+		m_vertices.insert(m_vertices.end(), tempVerts.begin(), tempVerts.end());
+		m_uvs.insert(m_uvs.end(), tempUVs.begin(), tempUVs.end());
 
 	}
 

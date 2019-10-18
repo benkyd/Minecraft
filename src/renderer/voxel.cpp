@@ -47,7 +47,7 @@ void Voxel::AddFace(EFaceType::Face face) {
 		case EFaceType::Left:
 		{
 
-			verts = CubeTopFace;
+			verts = CubeLeftFace;
 			uvs = CubeLeftFaceUVs;
 
 			break;
@@ -86,17 +86,10 @@ void Voxel::AddFace(EFaceType::Face face) {
 	verts = m_translateIntoChunk(verts, m_coordsInChunk);
 	m_vertices.insert(m_vertices.end(), verts.begin(), verts.end());
 
-	std::cout << "Voxel ID " << (int)Block << std::endl;
 
-	std::shared_ptr<CBlockEntry> block = BlockDictionary.BlockEntries[Block];
+	std::shared_ptr<CBlockEntry> block = CBlockDictionary::GetInstance()->BlockEntries[Block];
 
-	std::cout << "Block Entries Size " << BlockDictionary.BlockEntries.size() << std::endl;
-
-	std::cout << "Block ID " << (int)block->ID << std::endl;
-	std::cout << "Block Texture Count " << (int)block->FaceTextures.size() << std::endl;
-	
 	uint16_t tex = block->FaceTextures[(uint16_t)face];
-	std::cout << "Texture ID " << (int)tex << std::endl;
 
 	std::vector<glm::vec3> uvws;
 

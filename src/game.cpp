@@ -82,16 +82,21 @@ void Game::Setup(int w, int h) {
 	m_cameras["Default"] = std::make_shared<Camera>(w, h);
 	m_activeCamera = m_cameras["Default"];
 
-	BlockDictionary.Build();
+	std::shared_ptr<CBlockDictionary> BlockDictionary = CBlockDictionary::GetInstance();
+	
+	BlockDictionary->Build();
 
 	m_world = std::make_unique<World>();
 	
 	Texture texture;
-	m_world->TextureID = texture.LoadTextures(BlockDictionary.Textures);
+	m_world->TextureID = texture.LoadTextures(BlockDictionary->Textures);
 
-	m_world->Chunks.push_back(std::make_shared<Chunk>(0, 0));
-	m_world->Chunks.push_back(std::make_shared<Chunk>(1, 1));
-	m_world->Chunks.push_back(std::make_shared<Chunk>(1, 3));
+	for (int x = 0; x < 3; x++)
+	for (int y = 0; y < 3; y++) {
+	
+		m_world->Chunks.push_back(std::make_shared<Chunk>(x, y));
+
+	}
 
 	m_world->Shaders["Basic"] = std::make_shared<Shader>();
 	m_world->Shaders["Basic"]->Load(GameConfig.ResourceBase + "shaders/simple");

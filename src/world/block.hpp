@@ -46,6 +46,12 @@ public:
 class CBlockDictionary {
 public:
 
+	static std::shared_ptr<CBlockDictionary> GetInstance();
+
+	static std::shared_ptr<CBlockDictionary> Instance;
+
+public:
+
 	void Build();
 
 	// The index of the texutres path in this array is equal to
@@ -60,12 +66,10 @@ public:
 	// Expects textures to be inserted in order, 0-...
 	void RegisterTexture(std::string texture);
 	
-	void RegisterBlock(uint8_t block, std::vector<uint16_t> faceTextures);
+	void RegisterBlock(EBlockType::Block block, std::vector<uint16_t> faceTextures);
 
 };
 
-
-static CBlockDictionary BlockDictionary;
 
 // static std::vector<std::pair<int, std::string>> TextureIdsAndPaths {
 // 	{0, "dirt.png"},
