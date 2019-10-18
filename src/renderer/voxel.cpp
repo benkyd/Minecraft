@@ -1,6 +1,7 @@
 #include "voxel.hpp"
 
 #include <iostream>
+#include <memory>
 
 #include "shader.hpp"
 #include "camera.hpp"
@@ -87,10 +88,14 @@ void Voxel::AddFace(EFaceType::Face face) {
 
 	std::cout << "Voxel ID " << (int)Block << std::endl;
 
-	CBlockEntry block = BlockDictionary.BlockEntries[Block];
-	std::cout << "Block ID " << (int)block.ID << std::endl;
+	std::shared_ptr<CBlockEntry> block = BlockDictionary.BlockEntries[Block];
+
+	std::cout << "Block Entries Size " << BlockDictionary.BlockEntries.size() << std::endl;
+
+	std::cout << "Block ID " << (int)block->ID << std::endl;
+	std::cout << "Block Texture Count " << (int)block->FaceTextures.size() << std::endl;
 	
-	uint16_t tex = block.FaceTextures[face];
+	uint16_t tex = block->FaceTextures[(uint16_t)face];
 	std::cout << "Texture ID " << (int)tex << std::endl;
 
 	std::vector<glm::vec3> uvws;
@@ -102,7 +107,6 @@ void Voxel::AddFace(EFaceType::Face face) {
 	}
 
 	m_uvs.insert(m_uvs.end(), uvws.begin(), uvws.end());
-
 
 }
 

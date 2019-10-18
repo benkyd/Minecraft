@@ -6,27 +6,28 @@
 
 void CBlockDictionary::Build() {
 
-	registerTexture("dirt.png");
-	registerTexture("grass_side.png");
-	registerTexture("grass_top.png");
+	RegisterTexture("dirt.png");
+	RegisterTexture("grass_side.png");
+	RegisterTexture("grass_top.png");
 	
 	// Texture winding order - top, bottom, left, right, front, back
-	registerBlock(EBlockType::Air, 		{ EFaceTexture::Air,		EFaceTexture::Air,		EFaceTexture::Air,			EFaceTexture::Air,			EFaceTexture::Air,			EFaceTexture::Air });
-	registerBlock(EBlockType::Dirt,		{ EFaceTexture::Dirt,		EFaceTexture::Dirt,		EFaceTexture::Dirt,			EFaceTexture::Dirt,			EFaceTexture::Dirt,			EFaceTexture::Dirt });
-	registerBlock(EBlockType::Grass,	{ EFaceTexture::Grass,		EFaceTexture::Dirt,		EFaceTexture::GrassSide,	EFaceTexture::GrassSide,	EFaceTexture::GrassSide,	EFaceTexture::GrassSide });
+	RegisterBlock(EBlockType::Air, 		{ });
+	RegisterBlock(EBlockType::Dirt,		{ EFaceTexture::Dirt,		EFaceTexture::Dirt,		EFaceTexture::Dirt,			EFaceTexture::Dirt,			EFaceTexture::Dirt,			EFaceTexture::Dirt });
+	RegisterBlock(EBlockType::Grass,	{ EFaceTexture::Grass,		EFaceTexture::Dirt,		EFaceTexture::GrassSide,	EFaceTexture::GrassSide,	EFaceTexture::GrassSide,	EFaceTexture::GrassSide });
+
+	std::cout << "Block Entries Size " << BlockEntries.size() << std::endl;
 
 }
 
-void CBlockDictionary::registerTexture(std::string texture) {
+void CBlockDictionary::RegisterTexture(std::string texture) {
 
 	Textures.push_back(texture);
 
 }
 
-void CBlockDictionary::registerBlock(EBlockType::Block block, std::vector<uint16_t> faceTextures) {
+void CBlockDictionary::RegisterBlock(uint8_t block, std::vector<uint16_t> faceTextures) {
 
-	CBlockEntry entry = { block, faceTextures };
-
-	BlockEntries[(uint8_t)block] = entry;
+	std::cout << "Block Entries Size " << BlockEntries.size() << std::endl;
+	BlockEntries[block] = std::make_shared<CBlockEntry>((uint8_t)block, faceTextures);
 
 }

@@ -8,9 +8,9 @@ namespace EBlockType {
 
 	enum Block : uint8_t {
 
-		Air = 0,
-		Dirt,
-		Grass
+		Air 	= 0,
+		Dirt 	= 1,
+		Grass 	= 2
 
 	};
 
@@ -20,19 +20,22 @@ namespace EFaceTexture {
 
 	enum Texture : uint16_t {
 
-		Air = 0,
-		Dirt,
-		GrassSide,
-		Grass
+		Dirt 		= 0,
+		GrassSide 	= 1,
+		Grass 		= 2
 
 	};
 
 }
 
+// Texture winding order - top, bottom, left, right, front, back
 class CBlockEntry {
 public:
+
+	CBlockEntry(uint8_t id, std::vector<uint16_t> faceTextures)
+		: ID(id), FaceTextures(faceTextures) { }
+
 	uint8_t ID;
-	// Texture winding order - top, bottom, left, right, front, back
 	std::vector<uint16_t> FaceTextures;
 	
 };
@@ -52,14 +55,12 @@ public:
 	// Only supports up to 255 blocs, 0 being air
 	// word stores vectors of chunks which are 16x16x256
 	// vectors of uint8_t which reference the block dictionary
-	std::map<uint8_t, CBlockEntry> BlockEntries;
-
-private:
+	std::map<uint8_t, std::shared_ptr<CBlockEntry>> BlockEntries;
 
 	// Expects textures to be inserted in order, 0-...
-	void registerTexture(std::string texture);
+	void RegisterTexture(std::string texture);
 	
-	void registerBlock(EBlockType::Block block, std::vector<uint16_t> faceTextures);
+	void RegisterBlock(uint8_t block, std::vector<uint16_t> faceTextures);
 
 };
 

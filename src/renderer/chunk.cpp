@@ -17,15 +17,15 @@ Chunk::Chunk(int x, int z) {
 	for (int z = 0; z < CHUNK_DEPTH; z++) {
 
 		// Grass on the top layer
-		if (y == CHUNK_HEIGHT - 1) {
+		// if (y == CHUNK_HEIGHT - 1) {
 
 			Voxels.push_back((uint8_t)EBlockType::Grass);
 		
-		} else {
+		// } else {
 			
-			Voxels.push_back((uint8_t)EBlockType::Dirt);
+			// Voxels.push_back((uint8_t)EBlockType::Dirt);
 
-		}
+		// }
 
 	}
 
