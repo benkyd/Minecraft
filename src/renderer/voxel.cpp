@@ -21,8 +21,8 @@ Voxel::Voxel(glm::vec3 coordsInChunk, uint8_t block) {
 
 void Voxel::AddFace(EFaceType::Face face) {
 
-	std::vector<glm::vec3> verts; 
-	std::vector<glm::vec2> uvs; 
+	std::vector<glm::vec3> verts;
+	std::vector<glm::vec2> uvs;
 
 	switch (face) {
 
@@ -86,18 +86,18 @@ void Voxel::AddFace(EFaceType::Face face) {
 	verts = m_translateIntoChunk(verts, m_coordsInChunk);
 	m_vertices.insert(m_vertices.end(), verts.begin(), verts.end());
 
-
 	std::shared_ptr<CBlockEntry> block = CBlockDictionary::GetInstance()->BlockEntries[Block];
 
 	uint16_t tex = block->FaceTextures[(uint16_t)face];
 
-	std::vector<glm::vec3> uvws;
-
-	for (auto& uv : uvs) {
-
-		uvws.push_back({ uv.x, uv.y, (float)tex });
-
-	}
+	std::vector<glm::vec3> uvws = {
+		{ uvs[0].x, uvs[0].y, (float)tex },
+		{ uvs[1].x, uvs[1].y, (float)tex },
+		{ uvs[2].x, uvs[2].y, (float)tex },
+		{ uvs[3].x, uvs[3].y, (float)tex },
+		{ uvs[4].x, uvs[4].y, (float)tex },
+		{ uvs[5].x, uvs[5].y, (float)tex },
+	};
 
 	m_uvs.insert(m_uvs.end(), uvws.begin(), uvws.end());
 
@@ -111,7 +111,7 @@ void Voxel::GetMesh(std::vector<glm::vec3>& verts, std::vector<glm::vec3>& uvs) 
 }
 
 std::vector<glm::vec3> Voxel::m_translateIntoChunk(std::vector<glm::vec3> verts, glm::vec3 trans) {
-	
+
 	for (int i = 0; i < verts.size(); i++) {
 
 		verts[i].x += trans.x;

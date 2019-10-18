@@ -3,7 +3,7 @@
 
 #include "../common.hpp"
 
-#define CHUNK_HEIGHT 32
+#define CHUNK_HEIGHT 128
 #define CHUNK_WIDTH  16
 #define CHUNK_DEPTH  16
 
@@ -40,6 +40,8 @@ private:
 	glm::mat4 m_model;
 
 	std::vector<glm::vec3> m_vertices;
+	int m_numVerts = 0;
+
 	std::vector<glm::vec3> m_uvs;
 
 

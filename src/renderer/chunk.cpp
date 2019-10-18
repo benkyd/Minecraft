@@ -7,25 +7,31 @@
 
 #include "../world/block.hpp"
 
+#include <random>
+
 Chunk::Chunk(int x, int z) {
 
 	m_model = glm::translate(glm::mat4(1.0f), { x * CHUNK_WIDTH, 0, z * CHUNK_DEPTH });
+	
+	std::default_random_engine generator;
 	
 	// [x + WIDTH * (y + HEIGHT * z)]
 	for (int x = 0; x < CHUNK_WIDTH; x++)
 	for (int y = 0; y < CHUNK_HEIGHT; y++)
 	for (int z = 0; z < CHUNK_DEPTH; z++) {
+	
+		if (y > 15) {
+			Voxels.push_back((uint8_t)EBlockType::Air);
+			continue;
+		}
 
-		 // Grass on the top layer
-		 if (y == CHUNK_HEIGHT - 1) {
+		std::uniform_real_distribution<float> distribution(0, 1);
+		float r = distribution(generator);
 
+		if (r > 0.5f)
 			Voxels.push_back((uint8_t)EBlockType::Grass);
-		
-		 } else {
-			
-			 Voxels.push_back((uint8_t)EBlockType::Dirt);
-
-		 }
+		else 
+			Voxels.push_back((uint8_t)EBlockType::Air);
 
 	}
 
@@ -58,7 +64,7 @@ void Chunk::Render(std::shared_ptr<Camera> camera, std::shared_ptr<Shader> shade
 	GLint uniProj = glGetUniformLocation(shader->Program, "proj");
 	glUniformMatrix4fv(uniProj, 1, GL_FALSE, glm::value_ptr(camera->GetProjectionMatrix()));
 
-	glDrawArrays(GL_TRIANGLES, 0, m_vertices.size());
+	glDrawArrays(GL_TRIANGLES, 0, m_numVerts);
 
 }
 
@@ -70,12 +76,21 @@ void Chunk::Update() {
 
 uint8_t Chunk::BlockAt(int x, int y, int z) {
 
+	if (x > CHUNK_WIDTH  - 1) return 0;
+	if (y > CHUNK_HEIGHT - 1) return 0;
+	if (z > CHUNK_DEPTH  - 1) return 0;
+
+	if (x < 0) return 0;
+	if (y < 0) return 0;
+	if (z < 0) return 0;
+
 	return Voxels[x + CHUNK_WIDTH * (y + CHUNK_HEIGHT * z)];
 
 }
 
 void Chunk::m_mesh() {
 
+	// TODO: Use greedy meshing for MAXIMUM performance
 	for (int x = 0; x < CHUNK_WIDTH; x++)
 	for (int y = 0; y < CHUNK_HEIGHT; y++)
 	for (int z = 0; z < CHUNK_DEPTH; z++) {
@@ -85,15 +100,28 @@ void Chunk::m_mesh() {
 
 		uint8_t block = BlockAt(x, y, z);
 
-		Voxel tmp({x, y, z}, BlockAt(x, y, z));
+		if (block == EBlockType::Air) continue;
 
-		tmp.AddFace(EFaceType::Top);
-		tmp.AddFace(EFaceType::Bottom);
-		tmp.AddFace(EFaceType::Left);
-		tmp.AddFace(EFaceType::Right);
-		tmp.AddFace(EFaceType::Front);
-		tmp.AddFace(EFaceType::Back);
+		Voxel tmp({x, y, z}, block);
 
+		if (BlockAt(x + 1, y, z) == EBlockType::Air)
+			tmp.AddFace(EFaceType::Right);
+
+		if (BlockAt(x - 1, y, z) == EBlockType::Air)
+			tmp.AddFace(EFaceType::Left);
+
+		if (BlockAt(x, y + 1, z) == EBlockType::Air)
+			tmp.AddFace(EFaceType::Top);
+
+		if (BlockAt(x, y - 1, z) == EBlockType::Air)
+			tmp.AddFace(EFaceType::Bottom);
+
+		if (BlockAt(x, y, z + 1) == EBlockType::Air)
+			tmp.AddFace(EFaceType::Front);
+
+		if (BlockAt(x, y, z - 1) == EBlockType::Air)
+			tmp.AddFace(EFaceType::Back);
+		
 		tmp.GetMesh(tempVerts, tempUVs);
 
 		m_vertices.insert(m_vertices.end(), tempVerts.begin(), tempVerts.end());
@@ -111,6 +139,8 @@ void Chunk::m_mesh() {
 	data.insert(data.end(), m_vertices.begin(), m_vertices.end());
 	data.insert(data.end(), m_uvs.begin(), m_uvs.end());
 
+	m_numVerts = m_vertices.size();
+
 	glBufferData(GL_ARRAY_BUFFER, data.size() * sizeof(glm::vec3), &data[0], GL_STATIC_DRAW);
 
 	glEnableVertexAttribArray(0);
@@ -118,6 +148,9 @@ void Chunk::m_mesh() {
 
 	glEnableVertexAttribArray(1);
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, (const void*)(m_vertices.size() * sizeof(glm::vec3)));
+
+	m_vertices.clear();
+	m_uvs.clear();
 
 	glBindVertexArray(0);
 

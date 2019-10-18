@@ -71,6 +71,7 @@ void Game::Setup(int w, int h) {
 	// Load OpenGL
 	gladLoadGLLoader(SDL_GL_GetProcAddress);
 	glEnable(GL_MULTISAMPLE);
+	// glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
 	glEnable(GL_DEPTH_TEST);
 	// glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
@@ -91,7 +92,8 @@ void Game::Setup(int w, int h) {
 	Texture texture;
 	m_world->TextureID = texture.LoadTextures(BlockDictionary->Textures);
 
-	for (int x = 0; x < 3; x++)
+
+	for (int x = 0; x < 2; x++)
 	for (int y = 0; y < 3; y++) {
 	
 		m_world->Chunks.push_back(std::make_shared<Chunk>(x, y));
