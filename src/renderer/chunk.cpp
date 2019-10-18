@@ -13,25 +13,38 @@ Chunk::Chunk(int x, int z) {
 
 	m_model = glm::translate(glm::mat4(1.0f), { x * CHUNK_WIDTH, 0, z * CHUNK_DEPTH });
 	
-	std::default_random_engine generator;
 	
 	// [x + WIDTH * (y + HEIGHT * z)]
 	for (int x = 0; x < CHUNK_WIDTH; x++)
 	for (int y = 0; y < CHUNK_HEIGHT; y++)
 	for (int z = 0; z < CHUNK_DEPTH; z++) {
 	
-		if (y > 15) {
+		if (y > 32) {
 			Voxels.push_back((uint8_t)EBlockType::Air);
 			continue;
 		}
 
-		std::uniform_real_distribution<float> distribution(0, 1);
-		float r = distribution(generator);
 
-		if (r > 0.5f)
+		if (y == 0) {
+			
+			Voxels.push_back((uint8_t)EBlockType::Bedrock);
+
+		}
+		else if (y < 28) {
+
+			Voxels.push_back((uint8_t)EBlockType::Stone);
+
+		}
+		else if (y < 32) {
+
+			Voxels.push_back((uint8_t)EBlockType::Dirt);
+
+		}
+		else {
+
 			Voxels.push_back((uint8_t)EBlockType::Grass);
-		else 
-			Voxels.push_back((uint8_t)EBlockType::Air);
+		
+		}
 
 	}
 

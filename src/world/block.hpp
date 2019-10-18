@@ -8,9 +8,12 @@ namespace EBlockType {
 
 	enum Block : uint8_t {
 
-		Air 	= 0,
-		Dirt 	= 1,
-		Grass 	= 2
+		Air = 0,
+		Stone,
+		Grass,
+		Dirt,
+		Cobblestone,
+		Bedrock
 
 	};
 
@@ -20,9 +23,12 @@ namespace EFaceTexture {
 
 	enum Texture : uint16_t {
 
-		Dirt 		= 0,
-		GrassSide 	= 1,
-		Grass 		= 2
+		Stone,
+		Dirt,
+		GrassSide,
+		Grass,
+		Cobblestone,
+		Bedrock
 
 	};
 

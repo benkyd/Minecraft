@@ -21,14 +21,20 @@ std::shared_ptr<CBlockDictionary> CBlockDictionary::GetInstance() {
 
 void CBlockDictionary::Build() {
 
+	RegisterTexture("stone.png");
 	RegisterTexture("dirt.png");
 	RegisterTexture("grass_side.png");
 	RegisterTexture("grass_top.png");
+	RegisterTexture("cobblestone.png");
+	RegisterTexture("bedrock.png");
 	
 	// Texture winding order - top, bottom, left, right, front, back
-	RegisterBlock(EBlockType::Air, 		{ });
-	RegisterBlock(EBlockType::Dirt,		{ EFaceTexture::Dirt,		EFaceTexture::Dirt,		EFaceTexture::Dirt,			EFaceTexture::Dirt,			EFaceTexture::Dirt,			EFaceTexture::Dirt });
-	RegisterBlock(EBlockType::Grass,	{ EFaceTexture::Grass,		EFaceTexture::Dirt,		EFaceTexture::GrassSide,	EFaceTexture::GrassSide,	EFaceTexture::GrassSide,	EFaceTexture::GrassSide });
+	RegisterBlock(EBlockType::Air, 			{ });
+	RegisterBlock(EBlockType::Stone,		{ EFaceTexture::Stone,			EFaceTexture::Stone,		EFaceTexture::Stone,		EFaceTexture::Stone,		EFaceTexture::Stone,		EFaceTexture::Stone });
+	RegisterBlock(EBlockType::Dirt,			{ EFaceTexture::Dirt,			EFaceTexture::Dirt,			EFaceTexture::Dirt,			EFaceTexture::Dirt,			EFaceTexture::Dirt,			EFaceTexture::Dirt });
+	RegisterBlock(EBlockType::Grass,		{ EFaceTexture::Grass,			EFaceTexture::Dirt,			EFaceTexture::GrassSide,	EFaceTexture::GrassSide,	EFaceTexture::GrassSide,	EFaceTexture::GrassSide });
+	RegisterBlock(EBlockType::Cobblestone,	{ EFaceTexture::Cobblestone,	EFaceTexture::Cobblestone,	EFaceTexture::Cobblestone,	EFaceTexture::Cobblestone,	EFaceTexture::Cobblestone,	EFaceTexture::Cobblestone });
+	RegisterBlock(EBlockType::Bedrock,		{ EFaceTexture::Bedrock,		EFaceTexture::Bedrock,		EFaceTexture::Bedrock,		EFaceTexture::Bedrock,		EFaceTexture::Bedrock,		EFaceTexture::Bedrock });
 
 }
 

@@ -92,9 +92,8 @@ void Game::Setup(int w, int h) {
 	Texture texture;
 	m_world->TextureID = texture.LoadTextures(BlockDictionary->Textures);
 
-
 	for (int x = 0; x < 2; x++)
-	for (int y = 0; y < 3; y++) {
+	for (int y = 0; y < 2; y++) {
 	
 		m_world->Chunks.push_back(std::make_shared<Chunk>(x, y));
 
@@ -150,7 +149,7 @@ void Game::Run() {
 	
 	SDL_Event e;
 
-	const float clear[] = { 0.1f, 0.45f, 0.9f, 1.0f };
+	const float clear[] = { 186.0f / 255.0f, 214.0f / 255.0f, 254.0f / 255.0f };
 	
 	m_renderer = std::make_unique<Renderer>();
 
