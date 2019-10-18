@@ -3,7 +3,9 @@ project(OpenGLPlayground)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} CMakeModules/)
 cmake_policy(SET CMP0037 OLD)
+
 set(CMAKE_BUILD_TYPE Debug)
+# set(CMAKE_CXX_FLAGS "-Ofast")
 
 set(executable output)
 set(SrcDIR ./src)
@@ -43,6 +45,7 @@ file(GLOB SourceFiles
 	${SrcDIR}/*
 	${SrcDIR}/util/*
 	${SrcDIR}/game/*
+	${SrcDIR}/world/*
 	${SrcDIR}/renderer/*
 )
 

@@ -16,11 +16,13 @@ class Chunk {
 public:
 
 	Chunk(int x, int z);
-	Chunk(std::vector<std::shared_ptr<Voxel>> voxels);
+	Chunk(int x, int z, std::vector<uint8_t> voxels);
 
 	void Render(std::shared_ptr<Camera> camera, std::shared_ptr<Shader> shader);
 
 	void Update();
+
+	uint8_t BlockAt(int x, int y, int z);
 
 	// Indexed sequentially [x + WIDTH * (y + HEIGHT * z)] = voxelID
 	// the voxel id is used to index the block dictionary to get properties

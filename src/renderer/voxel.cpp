@@ -1,41 +1,107 @@
 #include "voxel.hpp"
 
+#include <iostream>
+
 #include "shader.hpp"
 #include "camera.hpp"
 
 #include "face.hpp"
 
+#include "../world/block.hpp"
 
-Voxel::Voxel(int x, int y, int z) {
+Voxel::Voxel(glm::vec3 coordsInChunk, uint8_t block) {
 
 	// Texture winding order - top, bottom, left, right, front, back
 
-	//Faces.push_back(Face((FaceDirection)0, 2));
-	//Faces.push_back(Face((FaceDirection)1, 0));
-	//Faces.push_back(Face((FaceDirection)2, 1));
-	//Faces.push_back(Face((FaceDirection)3, 1));
-	//Faces.push_back(Face((FaceDirection)4, 1));
-	//Faces.push_back(Face((FaceDirection)5, 1));
+	Block = block;
+	m_coordsInChunk = coordsInChunk;
 
-	//for (auto& face : Faces) {
+}
 
-	//	std::vector<glm::vec3> Vert;
-	//	std::vector<glm::vec3> UVs;
+void Voxel::AddFace(EFaceType::Face face) {
 
-	//	face.GetMesh(Vert, UVs);
-	//	
-	//	m_vertices.insert(m_vertices.end(), Vert.begin(), Vert.end());
-	//	m_uvs.insert(m_uvs.end(), UVs.begin(), UVs.end());
+	std::vector<glm::vec3> verts; 
+	std::vector<glm::vec2> uvs; 
 
-	//}
+	switch (face) {
 
-	for (int i = 0; i < m_vertices.size(); i++) {
+		case EFaceType::Top:
+		{
 
-		m_vertices[i].x += x;
-		m_vertices[i].y += y;
-		m_vertices[i].z += z;
+			verts = CubeTopFace;
+			uvs = CubeTopFaceUVs;
+
+			break;
+		}
+
+		case EFaceType::Bottom:
+		{
+
+			verts = CubeBottomFace;
+			uvs = CubeBottomFaceUVs;
+
+			break;
+		}
+
+		case EFaceType::Left:
+		{
+
+			verts = CubeTopFace;
+			uvs = CubeLeftFaceUVs;
+
+			break;
+		}
+
+		case EFaceType::Right:
+		{
+
+			verts = CubeRightFace;
+			uvs = CubeRightFaceUVs;
+
+			break;
+		}
+
+		case EFaceType::Front:
+		{
+
+			verts = CubeFrontFace;
+			uvs = CubeFrontFaceUVs;
+
+			break;
+		}
+
+		case EFaceType::Back:
+		{
+
+			verts = CubeBackFace;
+			uvs = CubeBackFaceUVs;
+
+			break;
+		}
 
 	}
+
+	
+	verts = m_translateIntoChunk(verts, m_coordsInChunk);
+	m_vertices.insert(m_vertices.end(), verts.begin(), verts.end());
+
+	std::cout << "Voxel ID " << (int)Block << std::endl;
+
+	CBlockEntry block = BlockDictionary.BlockEntries[Block];
+	std::cout << "Block ID " << (int)block.ID << std::endl;
+	
+	uint16_t tex = block.FaceTextures[face];
+	std::cout << "Texture ID " << (int)tex << std::endl;
+
+	std::vector<glm::vec3> uvws;
+
+	for (auto& uv : uvs) {
+
+		uvws.push_back({ uv.x, uv.y, (float)tex });
+
+	}
+
+	m_uvs.insert(m_uvs.end(), uvws.begin(), uvws.end());
 
 
 }
@@ -44,5 +110,19 @@ void Voxel::GetMesh(std::vector<glm::vec3>& verts, std::vector<glm::vec3>& uvs) 
 
 	verts = m_vertices;
 	uvs = m_uvs;
+
+}
+
+std::vector<glm::vec3> Voxel::m_translateIntoChunk(std::vector<glm::vec3> verts, glm::vec3 trans) {
+	
+	for (int i = 0; i < verts.size(); i++) {
+
+		verts[i].x += trans.x;
+		verts[i].y += trans.y;
+		verts[i].z += trans.z;
+
+	}
+
+	return verts;
 
 }

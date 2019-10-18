@@ -10,11 +10,18 @@ class Shader;
 
 class Voxel {
 public:
-	Voxel(int x, int y, int z);
+	Voxel(glm::vec3 coordsInChunk, uint8_t block);
 
+	void AddFace(EFaceType::Face face);
 	void GetMesh(std::vector<glm::vec3>& verts, std::vector<glm::vec3>& uvs);
 
+	uint8_t Block;
+
 private:
+
+	glm::vec3 m_coordsInChunk;
+
+	std::vector<glm::vec3> m_translateIntoChunk(std::vector<glm::vec3> verts, glm::vec3 trans);
 
 	std::vector<glm::vec3> m_vertices;
 	std::vector<glm::vec3> m_uvs;

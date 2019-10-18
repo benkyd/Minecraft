@@ -5,7 +5,7 @@
 
 class Texture {
 public:
-    GLuint Texture::LoadTextures(std::vector<std::string> textures);
+    GLuint LoadTextures(std::vector<std::string> textures);
 };
 
 #endif

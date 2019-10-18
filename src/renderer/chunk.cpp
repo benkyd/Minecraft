@@ -5,17 +5,27 @@
 
 #include "voxel.hpp"
 
+#include "../world/block.hpp"
+
 Chunk::Chunk(int x, int z) {
 
 	m_model = glm::translate(glm::mat4(1.0f), { x * CHUNK_WIDTH, 0, z * CHUNK_DEPTH });
-
 	
-
+	// [x + WIDTH * (y + HEIGHT * z)]
 	for (int x = 0; x < CHUNK_WIDTH; x++)
 	for (int y = 0; y < CHUNK_HEIGHT; y++)
 	for (int z = 0; z < CHUNK_DEPTH; z++) {
 
-		Voxels.push_back(std::make_shared<Voxel>(x, y, z));
+		// Grass on the top layer
+		if (y == CHUNK_HEIGHT - 1) {
+
+			Voxels.push_back((uint8_t)EBlockType::Grass);
+		
+		} else {
+			
+			Voxels.push_back((uint8_t)EBlockType::Dirt);
+
+		}
 
 	}
 
@@ -25,10 +35,12 @@ Chunk::Chunk(int x, int z) {
 
 }
 
-Chunk::Chunk(std::vector<std::shared_ptr<Voxel>> voxels) {
+Chunk::Chunk(int x, int z, std::vector<uint8_t> voxels) {
 
-	m_model = glm::mat4(1.0f);
+	m_model = glm::translate(glm::mat4(1.0f), { x * CHUNK_WIDTH, 0, z * CHUNK_DEPTH });
+	
 	Voxels = voxels;
+	
 	m_mesh();
 
 }
@@ -58,17 +70,35 @@ void Chunk::Update() {
 
 }
 
+uint8_t Chunk::BlockAt(int x, int y, int z) {
+
+	return Voxels[x + CHUNK_WIDTH * (y + CHUNK_HEIGHT * z)];
+
+}
+
 void Chunk::m_mesh() {
 
-	for (auto& voxel : Voxels) {
+	for (int x = 0; x < CHUNK_WIDTH; x++)
+	for (int y = 0; y < CHUNK_HEIGHT; y++)
+	for (int z = 0; z < CHUNK_DEPTH; z++) {
 
 		std::vector<glm::vec3> tempVerts;
 		std::vector<glm::vec3> tempUVs;
 
-		voxel->GetMesh(tempVerts, tempUVs);
-		
-		for (auto& vert : tempVerts)
-			m_vertices.push_back(vert);
+		std::cout << x << " " << y << " " << z << std::endl;
+
+		uint8_t block = BlockAt(x, y, z);
+
+		std::cout << "Block ID " << (int)block << std::endl;
+
+		Voxel tmp({x, y, z}, BlockAt(x, y, z));
+
+		tmp.AddFace(EFaceType::Top);
+		tmp.AddFace(EFaceType::Bottom);
+		tmp.AddFace(EFaceType::Left);
+		tmp.AddFace(EFaceType::Right);
+		tmp.AddFace(EFaceType::Front);
+		tmp.AddFace(EFaceType::Back);
 
 		for (auto& uv : tempUVs)
 			m_uvs.push_back(uv);
