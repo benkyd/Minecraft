@@ -10,9 +10,11 @@ Camera::Camera(int w, int h) {
 
 	eyeVector = {};
 	viewMatrix = {};
+
 }
 
 void Camera::UpdateView() {
+
 	// roll can be removed
 	glm::mat4 matRoll = glm::mat4(1.0f); //identity matrix; 
 	glm::mat4 matPitch = glm::mat4(1.0f);//identity matrix
@@ -29,21 +31,35 @@ void Camera::UpdateView() {
 	translate = glm::translate(translate, -eyeVector);
 
 	viewMatrix = rotate * translate;
+
 }
 
 glm::mat4 Camera::GetViewMatrix() {
+
 	return viewMatrix;
+
 }
 
 glm::mat4 Camera::GetProjectionMatrix() {
+
 	return projMatrix;
+
+}
+
+void Camera::UpdateProjection(int width, int height) {
+
+	projMatrix = glm::perspective(glm::radians(45.0f), (float)width / (float)height, 0.1f, 1000.0f);
+
 }
 
 glm::vec3 Camera::GetPos() {
+
 	return eyeVector;
+
 }
 
 void Camera::HandleMouse(SDL_Event e) {
+
 	if (e.type != SDL_MOUSEMOTION)
 		return;
 
@@ -54,9 +70,11 @@ void Camera::HandleMouse(SDL_Event e) {
 	glm::vec2 mouseDelta{ mouseDX, mouseDY };
 
 	MouseMoved(mouseDelta);
+
 }
 
 void Camera::MoveCamera(Uint8* state) {
+
 	float dx = 0;
 	float dz = 0;
 	float dy = 0;
@@ -105,9 +123,11 @@ void Camera::MoveCamera(Uint8* state) {
 	eyeVector.y += dy * CameraSpeed;
 	// update the view matrix
 	UpdateView();
+
 }
 
 void Camera::MouseMoved(glm::vec2 mouseDelta) {
+
 	// note that yaw and pitch must be converted to radians.
 	// this is done in UpdateView() by glm::rotate
 	yaw += MouseSensitivity * (mouseDelta.x/100);
@@ -115,5 +135,6 @@ void Camera::MouseMoved(glm::vec2 mouseDelta) {
 	pitch = glm::clamp<float>(pitch, -M_PI/2, M_PI/2);
 
 	UpdateView();
+
 }
 

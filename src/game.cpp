@@ -54,14 +54,21 @@ void Game::Setup(int w, int h) {
 	m_window = SDL_CreateWindow("Minecraft 1.14.2",
 		SDL_WINDOWPOS_CENTERED,
 		SDL_WINDOWPOS_CENTERED, w, h,
-		SDL_WINDOW_OPENGL);
+		SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
 
 	// Create GL context
 	*m_logger << LOGGER_INFO << "Creating OpenGL context" << LOGGER_ENDL;
 	m_glContext = SDL_GL_CreateContext(m_window);
 
-	SDL_WarpMouseInWindow(m_window, w / 2, h / 2);
-	SDL_SetRelativeMouseMode(SDL_TRUE);
+	if (IsMouseActive) {
+
+		SDL_SetRelativeMouseMode(SDL_TRUE);
+
+	} else {
+
+		SDL_SetRelativeMouseMode(SDL_FALSE);
+
+	}
 
 	// Set VSYNC swap interval
 	SDL_GL_SetSwapInterval(1);
@@ -92,8 +99,8 @@ void Game::Setup(int w, int h) {
 	Texture texture;
 	m_world->TextureID = texture.LoadTextures(BlockDictionary->Textures);
 
-	for (int x = 0; x < 2; x++)
-	for (int y = 0; y < 2; y++) {
+	for (int x = 0; x < 1; x++)
+	for (int y = 0; y < 1; y++) {
 	
 		m_world->Chunks.push_back(std::make_shared<Chunk>(x, y));
 
@@ -111,16 +118,34 @@ void Game::Input(SDL_Event* e) {
 
 	while (SDL_PollEvent(e)) {
 
-		m_activeCamera->HandleMouse(*e);
 
 		switch (e->type) {
 
 			case SDL_KEYDOWN:
 			{
 
-				if (state[SDL_SCANCODE_ESCAPE]) {
+				if (e->key.keysym.sym == SDLK_ESCAPE) {
 					
-					IsDisplayOpen = false;
+					IsMouseActive = !IsMouseActive;
+
+					if (IsMouseActive)
+						SDL_SetRelativeMouseMode(SDL_TRUE);
+					else
+						SDL_SetRelativeMouseMode(SDL_FALSE);
+
+				}
+
+				break;
+
+			}
+
+			case SDL_WINDOWEVENT: 
+			{
+
+				if (e->window.event == SDL_WINDOWEVENT_RESIZED) {
+
+					m_activeCamera->UpdateProjection(e->window.data1, e->window.data2);
+					glViewport(0, 0, e->window.data1, e->window.data2);
 
 				}
 
@@ -138,6 +163,8 @@ void Game::Input(SDL_Event* e) {
 			}
 
 		}
+
+		if (IsMouseActive) m_activeCamera->HandleMouse(*e);
 
 	}
 

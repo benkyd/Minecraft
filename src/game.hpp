@@ -35,6 +35,7 @@ public:
 	void Run();
 
 	bool IsDisplayOpen = false;
+	bool IsMouseActive = true;
 
 private:
 	SDL_Window* m_window = nullptr;

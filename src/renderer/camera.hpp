@@ -11,6 +11,8 @@ public:
 
 	glm::mat4 GetViewMatrix();
 	glm::mat4 GetProjectionMatrix();
+	void UpdateProjection(int width, int height);
+
 	glm::vec3 GetPos();
 
 	void HandleMouse(SDL_Event e);
