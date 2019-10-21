@@ -1,7 +1,7 @@
 #ifndef MINECRAFT_RENDERER_FACE_H_
 #define MINECRAFT_RENDERER_FACE_H_
 
-#include "../common.hpp"
+#include "../../common.hpp"
 
 namespace EFaceType {
 

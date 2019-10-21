@@ -1,7 +1,7 @@
 #ifndef MINECRAFT_RENDERER_CHUNK_H_
 #define MINECRAFT_RENDERER_CHUNK_H_
 
-#include "../common.hpp"
+#include "../../common.hpp"
 
 #define CHUNK_HEIGHT 128
 #define CHUNK_WIDTH  16
@@ -21,6 +21,9 @@ public:
 	void Render(std::shared_ptr<Camera> camera, std::shared_ptr<Shader> shader);
 
 	void Update();
+
+	//bool Loaded = false;
+	//bool Render = false;
 
 	uint8_t BlockAt(int x, int y, int z);
 

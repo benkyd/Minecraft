@@ -1,8 +1,8 @@
 #include "renderer.hpp"
 
+#include "../world/chunk/chunk.hpp"
 #include "../world/world.hpp"
 #include "shader.hpp"
-#include "chunk.hpp"
 
 Renderer::Renderer() {
 

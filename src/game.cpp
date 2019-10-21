@@ -7,8 +7,8 @@
 #include "renderer/texture.hpp"
 #include "renderer/shader.hpp"
 #include "renderer/camera.hpp"
-#include "renderer/chunk.hpp"
 
+#include "world/chunk/chunk.hpp"
 #include "world/world.hpp"
 #include "world/block.hpp"
 
@@ -60,15 +60,7 @@ void Game::Setup(int w, int h) {
 	*m_logger << LOGGER_INFO << "Creating OpenGL context" << LOGGER_ENDL;
 	m_glContext = SDL_GL_CreateContext(m_window);
 
-	if (IsMouseActive) {
-
-		SDL_SetRelativeMouseMode(SDL_TRUE);
-
-	} else {
-
-		SDL_SetRelativeMouseMode(SDL_FALSE);
-
-	}
+	SDL_SetRelativeMouseMode(SDL_TRUE);
 
 	// Set VSYNC swap interval
 	SDL_GL_SetSwapInterval(1);
@@ -99,8 +91,8 @@ void Game::Setup(int w, int h) {
 	Texture texture;
 	m_world->TextureID = texture.LoadTextures(BlockDictionary->Textures);
 
-	for (int x = 0; x < 1; x++)
-	for (int y = 0; y < 1; y++) {
+	for (int x = 0; x < 2; x++)
+	for (int y = 0; y < 2; y++) {
 	
 		m_world->Chunks.push_back(std::make_shared<Chunk>(x, y));
 

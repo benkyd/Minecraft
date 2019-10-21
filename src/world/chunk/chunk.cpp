@@ -1,13 +1,15 @@
 #include "chunk.hpp"
 
-#include "shader.hpp"
-#include "camera.hpp"
+#include "../../renderer/shader.hpp"
+#include "../../renderer/camera.hpp"
 
 #include "voxel.hpp"
 
-#include "../world/block.hpp"
+#include "../block.hpp"
 
 #include <random>
+
+static std::default_random_engine generator;
 
 Chunk::Chunk(int x, int z) {
 
@@ -24,27 +26,23 @@ Chunk::Chunk(int x, int z) {
 			continue;
 		}
 
+		std::uniform_real_distribution<float> distribution(0, 1);
+		float r = distribution(generator);
 
-		if (y == 0) {
-			
+		if (r > 0.8f) {
+			Voxels.push_back((uint8_t)EBlockType::Air);
+			continue;
+		}
+
+
+		if (y == 0)
 			Voxels.push_back((uint8_t)EBlockType::Bedrock);
-
-		}
-		else if (y < 28) {
-
+		else if (y < 28)
 			Voxels.push_back((uint8_t)EBlockType::Stone);
-
-		}
-		else if (y < 32) {
-
+		else if (y < 32)
 			Voxels.push_back((uint8_t)EBlockType::Dirt);
-
-		}
-		else {
-
+		else
 			Voxels.push_back((uint8_t)EBlockType::Grass);
-		
-		}
 
 	}
 
@@ -139,6 +137,8 @@ void Chunk::m_mesh() {
 
 		m_vertices.insert(m_vertices.end(), tempVerts.begin(), tempVerts.end());
 		m_uvs.insert(m_uvs.end(), tempUVs.begin(), tempUVs.end());
+
+		tmp.Clear();
 
 	}
 

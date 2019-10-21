@@ -3,12 +3,12 @@
 #include <iostream>
 #include <memory>
 
-#include "shader.hpp"
-#include "camera.hpp"
+#include "../../renderer/shader.hpp"
+#include "../../renderer/camera.hpp"
 
 #include "face.hpp"
 
-#include "../world/block.hpp"
+#include "../block.hpp"
 
 Voxel::Voxel(glm::vec3 coordsInChunk, uint8_t block) {
 
@@ -107,6 +107,13 @@ void Voxel::GetMesh(std::vector<glm::vec3>& verts, std::vector<glm::vec3>& uvs) 
 
 	verts = m_vertices;
 	uvs = m_uvs;
+
+}
+
+void Voxel::Clear() {
+
+	m_vertices.clear();
+	m_uvs.clear();
 
 }
 

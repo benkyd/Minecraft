@@ -1,7 +1,7 @@
 #ifndef MINECRAFT_RENDERER_VOXEL_H_
 #define MINECRAFT_RENDERER_VOXEL_H_
 
-#include "../common.hpp"
+#include "../../common.hpp"
 
 #include "face.hpp"
 
@@ -14,6 +14,8 @@ public:
 
 	void AddFace(EFaceType::Face face);
 	void GetMesh(std::vector<glm::vec3>& verts, std::vector<glm::vec3>& uvs);
+
+	void Clear();
 
 	uint8_t Block;
 

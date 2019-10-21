@@ -46,6 +46,7 @@ file(GLOB SourceFiles
 	${SrcDIR}/util/*
 	${SrcDIR}/game/*
 	${SrcDIR}/world/*
+	${SrcDIR}/world/chunk/*
 	${SrcDIR}/renderer/*
 )
 
