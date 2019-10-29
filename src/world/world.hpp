@@ -13,6 +13,16 @@ class Chunk;
 class World {
 public:
 
+	World();
+
+	void LoadWorld();
+
+	void SetTextureMap(GLuint map);
+
+	// Takes world coordinates and gets a chunks coordinates
+	glm::vec2 GetChunkCoords(glm::vec3);
+
+	std::vector<std::shared_ptr<Chunk>> GetRenderableChunks();
 
 private:
 
@@ -24,6 +34,9 @@ private:
 
 	std::vector<std::thread> m_generatorThreads;
 
+	// Chuks
+
+	std::vector<std::shared_ptr<Chunk>> m_renderableChunks;
 	std::unordered_map<glm::vec2, std::shared_ptr<Chunk>> m_chunks;
 
 };

@@ -11,9 +11,8 @@ public:
 
 	glm::mat4 GetViewMatrix();
 	glm::mat4 GetProjectionMatrix();
-	void UpdateProjection(int width, int height);
 
-	glm::vec3 GetPos();
+	void UpdateProjection(int width, int height);
 
 	void HandleMouse(SDL_Event e);
 	void MoveCamera(Uint8* state);
@@ -22,9 +21,11 @@ public:
 	float MouseSensitivity = 0.1f;
 	float CameraSpeed = 0.2f;
 
+	glm::vec3 Position = {};
+	glm::vec3 LookDirection = {};
+
 private:
 	float roll, pitch, yaw;
-	glm::vec3 eyeVector = {};
 
 	glm::mat4 viewMatrix = {};
 	glm::mat4 projMatrix = {};

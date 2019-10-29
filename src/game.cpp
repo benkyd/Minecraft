@@ -89,14 +89,9 @@ void Game::Setup(int w, int h) {
 	m_world = std::make_unique<World>();
 	
 	Texture texture;
-	m_world->TextureID = texture.LoadTextures(BlockDictionary->Textures);
+	m_world->SetTextureMap(texture.LoadTextures(BlockDictionary->Textures));
 
-	for (int x = 0; x < 2; x++)
-	for (int y = 0; y < 2; y++) {
-	
-		m_world->Chunks.push_back(std::make_shared<Chunk>(x, y));
-
-	}
+	m_world->LoadWorld();
 
 	m_world->Shaders["Basic"] = std::make_shared<Shader>();
 	m_world->Shaders["Basic"]->Load(GameConfig.ResourceBase + "shaders/simple");

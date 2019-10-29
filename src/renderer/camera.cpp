@@ -8,7 +8,9 @@ Camera::Camera(int w, int h) {
 	pitch = 0.0f;
 	yaw = 0.0f;
 
-	eyeVector = {};
+	Position = {};
+	LookDirection = {};
+
 	viewMatrix = {};
 
 }
@@ -28,9 +30,16 @@ void Camera::UpdateView() {
 	glm::mat4 rotate = matRoll * matPitch * matYaw;
 
 	glm::mat4 translate = glm::mat4(1.0f);
-	translate = glm::translate(translate, -eyeVector);
+	translate = glm::translate(translate, -Position);
 
 	viewMatrix = rotate * translate;
+
+	// Work out Look Vector
+	glm::mat4 inverseView = glm::inverse(viewMatrix);
+	
+	LookDirection.x = inverseView[2][0];
+	LookDirection.y = inverseView[2][1];
+	LookDirection.z = inverseView[2][2];
 
 }
 
@@ -49,12 +58,6 @@ glm::mat4 Camera::GetProjectionMatrix() {
 void Camera::UpdateProjection(int width, int height) {
 
 	projMatrix = glm::perspective(glm::radians(45.0f), (float)width / (float)height, 0.1f, 1000.0f);
-
-}
-
-glm::vec3 Camera::GetPos() {
-
-	return eyeVector;
 
 }
 
@@ -118,9 +121,10 @@ void Camera::MoveCamera(Uint8* state) {
 
 	// forward vector must be negative to look forward. 
 	// read :http://in2gpu.com/2015/05/17/view-matrix/
-	eyeVector.x += dx * CameraSpeed;
-	eyeVector.z += dz * CameraSpeed;
-	eyeVector.y += dy * CameraSpeed;
+	Position.x += dx * CameraSpeed;
+	Position.z += dz * CameraSpeed;
+	Position.y += dy * CameraSpeed;
+
 	// update the view matrix
 	UpdateView();
 
