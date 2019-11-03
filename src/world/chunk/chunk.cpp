@@ -11,16 +11,43 @@
 
 static std::default_random_engine generator;
 
+Chunk::Chunk() {
+
+}
+
 Chunk::Chunk(int x, int z) {
 
 	m_model = glm::translate(glm::mat4(1.0f), { x * CHUNK_WIDTH, 0, z * CHUNK_DEPTH });
+
+	Load();
+
+}
+
+Chunk::Chunk(int x, int z, std::vector<uint8_t> voxels) {
+
+	m_model = glm::translate(glm::mat4(1.0f), { x * CHUNK_WIDTH, 0, z * CHUNK_DEPTH });
 	
+	Voxels = voxels;
 	
+	Load();
+
+}
+
+void Chunk::Load() {
+
+	if (Loaded)
+		return;
+
+	if (!Voxels.empty()) {
+		m_mesh();
+		return;
+	}
+
 	// [x + WIDTH * (y + HEIGHT * z)]
 	for (int x = 0; x < CHUNK_WIDTH; x++)
 	for (int y = 0; y < CHUNK_HEIGHT; y++)
 	for (int z = 0; z < CHUNK_DEPTH; z++) {
-	
+
 		if (y > 32) {
 			Voxels.push_back((uint8_t)EBlockType::Air);
 			continue;
@@ -28,12 +55,11 @@ Chunk::Chunk(int x, int z) {
 
 		std::uniform_real_distribution<float> distribution(0, 1);
 		float r = distribution(generator);
-
-		if (r > 0.8f) {
+		
+		if (r > 0.9f) {
 			Voxels.push_back((uint8_t)EBlockType::Air);
 			continue;
 		}
-
 
 		if (y == 0)
 			Voxels.push_back((uint8_t)EBlockType::Bedrock);
@@ -47,21 +73,50 @@ Chunk::Chunk(int x, int z) {
 	}
 
 	m_mesh();
+	Loaded = true;
 
 }
 
-Chunk::Chunk(int x, int z, std::vector<uint8_t> voxels) {
+void Chunk::UploadMesh() {
 
-	m_model = glm::translate(glm::mat4(1.0f), { x * CHUNK_WIDTH, 0, z * CHUNK_DEPTH });
-	
-	Voxels = voxels;
-	
-	m_mesh();
+	if (!MeshReady)
+		return;
+
+	glGenVertexArrays(1, &m_vao);
+	glBindVertexArray(m_vao);
+
+	glGenBuffers(1, &m_vbo);
+	glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
+
+	std::vector<glm::vec3> data;
+	data.insert(data.end(), m_vertices.begin(), m_vertices.end());
+	data.insert(data.end(), m_uvs.begin(), m_uvs.end());
+
+	m_numVerts = m_vertices.size();
+
+	glBufferData(GL_ARRAY_BUFFER, data.size() * sizeof(glm::vec3), &data[0], GL_STATIC_DRAW);
+
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (const void*)0);
+
+	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, (const void*)(m_vertices.size() * sizeof(glm::vec3)));
+
+	m_vertices.clear();
+	m_uvs.clear();
+
+	data.clear();
+
+	glBindVertexArray(0);
+
+	MeshReady = !MeshReady;
 
 }
-
 
 void Chunk::Render(std::shared_ptr<Camera> camera, std::shared_ptr<Shader> shader) {
+
+	if (!Loaded)
+		return;
 
 	shader->Use();
 	glBindVertexArray(m_vao);
@@ -79,8 +134,9 @@ void Chunk::Render(std::shared_ptr<Camera> camera, std::shared_ptr<Shader> shade
 
 }
 
-void Chunk::Update() {
+void Chunk::Update(std::vector<uint8_t> voxels) {
 
+	Voxels = voxels;
 	m_mesh();
 
 }
@@ -142,29 +198,10 @@ void Chunk::m_mesh() {
 
 	}
 
-	glGenVertexArrays(1, &m_vao);
-	glBindVertexArray(m_vao);
+	MeshReady = true;
 
-	glGenBuffers(1, &m_vbo);
-	glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
+}
 
-	std::vector<glm::vec3> data;
-	data.insert(data.end(), m_vertices.begin(), m_vertices.end());
-	data.insert(data.end(), m_uvs.begin(), m_uvs.end());
-
-	m_numVerts = m_vertices.size();
-
-	glBufferData(GL_ARRAY_BUFFER, data.size() * sizeof(glm::vec3), &data[0], GL_STATIC_DRAW);
-
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (const void*)0);
-
-	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, (const void*)(m_vertices.size() * sizeof(glm::vec3)));
-
-	m_vertices.clear();
-	m_uvs.clear();
-
-	glBindVertexArray(0);
+Chunk::~Chunk() {
 
 }

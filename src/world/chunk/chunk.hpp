@@ -15,12 +15,19 @@ class Voxel;
 class Chunk {
 public:
 
+	Chunk();
 	Chunk(int x, int z);
 	Chunk(int x, int z, std::vector<uint8_t> voxels);
 
+	void Load();
+
+	bool MeshReady = false;
+	void UploadMesh();
+
+
 	void Render(std::shared_ptr<Camera> camera, std::shared_ptr<Shader> shader);
 
-	void Update();
+	void Update(std::vector<uint8_t> voxels);
 
 	//bool Loaded = false;
 	//bool Render = false;
@@ -31,6 +38,13 @@ public:
 	// the voxel id is used to index the block dictionary to get properties
 	// to generate a mesh and send it to the GPU
 	std::vector<uint8_t> Voxels;
+
+	// To only be changed by the class its self 
+	bool Loaded = false;
+	// To only be changed by render components
+	bool ShouldRender = false;
+
+	~Chunk();
 
 private:
 

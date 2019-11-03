@@ -1,5 +1,8 @@
 #include "game.hpp"
 
+// For glm::vec2 as the key of a hashmap
+#define GLM_ENABLE_EXPERIMENTAL
+
 #define LOGGER_DEFINITION
 #include <logger.h>
 
@@ -81,6 +84,8 @@ void Game::Setup(int w, int h) {
 
 	m_cameras["Default"] = std::make_shared<Camera>(w, h);
 	m_activeCamera = m_cameras["Default"];
+	m_activeCamera->Position = { 0, 40, 0 };
+	m_activeCamera->UpdateView();
 
 	std::shared_ptr<CBlockDictionary> BlockDictionary = CBlockDictionary::GetInstance();
 	
@@ -92,10 +97,6 @@ void Game::Setup(int w, int h) {
 	m_world->SetTextureMap(texture.LoadTextures(BlockDictionary->Textures));
 
 	m_world->LoadWorld();
-
-	m_world->Shaders["Basic"] = std::make_shared<Shader>();
-	m_world->Shaders["Basic"]->Load(GameConfig.ResourceBase + "shaders/simple");
-	m_world->Shaders["Basic"]->Link();
 	
 }
 
