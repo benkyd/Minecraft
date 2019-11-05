@@ -26,15 +26,15 @@ void World::LoadWorld() {
 
     m_noiseGenerator->SetFractalOctaves(5);
 
-	for (int x = -4; x < 10; x++)
-	for (int y = -4; y < 4; y++) {
+	for (int x = -4; x < 50; x++)
+	for (int y = -50; y < 4; y++) {
 
 		m_chunkLoaderQueue.push({ x, y });
 
 	}
 
 	// Spawn generator threads
-	for (int i = 0; i < 7; i++) {
+	for (int i = 0; i < 6; i++) {
 
 		m_generatorThreads.push_back(std::thread([&]() {
 
