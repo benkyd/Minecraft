@@ -7,6 +7,8 @@
 #define CHUNK_WIDTH  16
 #define CHUNK_DEPTH  16
 
+class FastNoise;
+
 class Camera;
 class Shader;
 
@@ -15,15 +17,19 @@ class Voxel;
 class Chunk {
 public:
 
+	Chunk();
 	Chunk(int x, int z);
 	Chunk(int x, int z, std::vector<uint8_t> voxels);
+	Chunk(int x, int z, std::shared_ptr<FastNoise> terrainGenerator);
+
+	void Load();
+
+	void UploadMesh();
+	bool MeshReady = false;
 
 	void Render(std::shared_ptr<Camera> camera, std::shared_ptr<Shader> shader);
 
-	void Update();
-
-	//bool Loaded = false;
-	//bool Render = false;
+	void Update(std::vector<uint8_t> voxels);
 
 	uint8_t BlockAt(int x, int y, int z);
 
@@ -31,6 +37,16 @@ public:
 	// the voxel id is used to index the block dictionary to get properties
 	// to generate a mesh and send it to the GPU
 	std::vector<uint8_t> Voxels;
+
+	// To only be changed by the class its self 
+	bool Loaded = false;
+	// To only be changed by render components
+	bool ShouldRender = false;
+
+	// Chunk World pos
+	int X,Z;
+
+	~Chunk();
 
 private:
 

@@ -1,39 +1,137 @@
 #include "chunk.hpp"
+#include "voxel.hpp"
 
 #include "../../renderer/shader.hpp"
 #include "../../renderer/camera.hpp"
 
-#include "voxel.hpp"
-
 #include "../block.hpp"
+
+#include "../../util/fastnoise.hpp"
 
 #include <random>
 
 static std::default_random_engine generator;
 
+Chunk::Chunk() {
+
+}
+
 Chunk::Chunk(int x, int z) {
 
-	m_model = glm::translate(glm::mat4(1.0f), { x * CHUNK_WIDTH, 0, z * CHUNK_DEPTH });
+	X = x, Z = z;
+
+	Load();
+
+}
+
+Chunk::Chunk(int x, int z, std::vector<uint8_t> voxels) {
+
+	X = x, Z = z;
 	
+	Voxels = voxels;
 	
+	Load();
+
+}
+
+Chunk::Chunk(int x, int z, std::shared_ptr<FastNoise> terrainGenerator) {
+
+	X = x, Z = z;
+	int y;
+
+	for (x = 0; x < CHUNK_WIDTH; x++)
+	for (y = 0; y < CHUNK_HEIGHT; y++)
+	for (z = 0; z < CHUNK_DEPTH; z++) {
+
+		if (y == 0) {
+			Voxels.push_back((uint8_t)EBlockType::Bedrock);
+			continue;
+		}
+
+		if (y == 1 && (float)rand() / (float)RAND_MAX > 0.5f) {
+			Voxels.push_back((uint8_t)EBlockType::Bedrock);
+			continue;
+		}
+
+		if (pow(y / (float)CHUNK_HEIGHT, 1.1024f) + terrainGenerator->GetValueFractal(x + (Z * CHUNK_WIDTH), y, z + (X * CHUNK_DEPTH))  * 0.60f < 0.5f) {
+	
+			Voxels.push_back((uint8_t)EBlockType::Grass);
+			continue;
+				
+		}
+		
+		Voxels.push_back((uint8_t)EBlockType::Air);
+
+	}
+
+	for (x = 0; x < CHUNK_WIDTH; x++)
+	for (y = 0; y < CHUNK_HEIGHT; y++)
+	for (z = 0; z < CHUNK_DEPTH; z++) {
+
+		if (BlockAt(x, y, z) == EBlockType::Bedrock)
+			continue;
+
+		// No need for bounds checking as a closed loop
+		if (BlockAt(x, y + 1, z) == EBlockType::Grass)
+			Voxels[x + CHUNK_WIDTH * (y + CHUNK_HEIGHT * z)] = EBlockType::Dirt;
+
+	}
+
+	// Add stone 3 layers below dirt
+	for (x = 0; x < CHUNK_WIDTH; x++)
+	for (y = 0; y < CHUNK_HEIGHT; y++)
+	for (z = 0; z < CHUNK_DEPTH; z++) {
+
+		if (BlockAt(x, y, z) == EBlockType::Bedrock)
+			continue;
+
+		if (BlockAt(x, y + 1, z) == EBlockType::Dirt)
+		if (BlockAt(x, y + 2, z) == EBlockType::Dirt) 
+		// if (BlockAt(x, y + 3, z) == EBlockType::Dirt) 
+			Voxels[x + CHUNK_WIDTH * (y + CHUNK_HEIGHT * z)] = EBlockType::Stone;
+	
+	}
+	
+	// Add the rest of the stone
+	for (x = 0; x < CHUNK_WIDTH; x++)
+	for (y = 0; y < CHUNK_HEIGHT; y++)
+	for (z = 0; z < CHUNK_DEPTH; z++) {
+
+		if (BlockAt(x, y, z) == EBlockType::Bedrock)
+			continue;
+
+		if (BlockAt(x, y + 1, z) == EBlockType::Stone)
+			Voxels[x + CHUNK_WIDTH * (y + CHUNK_HEIGHT * z)] = EBlockType::Stone;
+
+	}
+
+	Load();
+
+}
+
+void Chunk::Load() {
+
+	if (Loaded)
+		return;
+
+	m_model = glm::translate(glm::mat4(1.0f), { X * CHUNK_WIDTH, 0, Z * CHUNK_DEPTH });
+
+	if (!Voxels.empty()) {
+		m_mesh();
+		Loaded = true;
+		return;
+	}
+
+	// Generate a superflat chunk if nothing is there
 	// [x + WIDTH * (y + HEIGHT * z)]
 	for (int x = 0; x < CHUNK_WIDTH; x++)
 	for (int y = 0; y < CHUNK_HEIGHT; y++)
 	for (int z = 0; z < CHUNK_DEPTH; z++) {
-	
+
 		if (y > 32) {
 			Voxels.push_back((uint8_t)EBlockType::Air);
 			continue;
 		}
-
-		std::uniform_real_distribution<float> distribution(0, 1);
-		float r = distribution(generator);
-
-		if (r > 0.8f) {
-			Voxels.push_back((uint8_t)EBlockType::Air);
-			continue;
-		}
-
 
 		if (y == 0)
 			Voxels.push_back((uint8_t)EBlockType::Bedrock);
@@ -47,21 +145,50 @@ Chunk::Chunk(int x, int z) {
 	}
 
 	m_mesh();
+	Loaded = true;
 
 }
 
-Chunk::Chunk(int x, int z, std::vector<uint8_t> voxels) {
+void Chunk::UploadMesh() {
 
-	m_model = glm::translate(glm::mat4(1.0f), { x * CHUNK_WIDTH, 0, z * CHUNK_DEPTH });
-	
-	Voxels = voxels;
-	
-	m_mesh();
+	if (!MeshReady)
+		return;
+
+	glGenVertexArrays(1, &m_vao);
+	glBindVertexArray(m_vao);
+
+	glGenBuffers(1, &m_vbo);
+	glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
+
+	std::vector<glm::vec3> data;
+	data.insert(data.end(), m_vertices.begin(), m_vertices.end());
+	data.insert(data.end(), m_uvs.begin(), m_uvs.end());
+
+	m_numVerts = m_vertices.size();
+
+	glBufferData(GL_ARRAY_BUFFER, data.size() * sizeof(glm::vec3), &data[0], GL_STATIC_DRAW);
+
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (const void*)0);
+
+	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, (const void*)(m_vertices.size() * sizeof(glm::vec3)));
+
+	m_vertices.clear();
+	m_uvs.clear();
+
+	data.clear();
+
+	glBindVertexArray(0);
+
+	MeshReady = !MeshReady;
 
 }
-
 
 void Chunk::Render(std::shared_ptr<Camera> camera, std::shared_ptr<Shader> shader) {
+
+	if (!Loaded)
+		return;
 
 	shader->Use();
 	glBindVertexArray(m_vao);
@@ -79,8 +206,9 @@ void Chunk::Render(std::shared_ptr<Camera> camera, std::shared_ptr<Shader> shade
 
 }
 
-void Chunk::Update() {
+void Chunk::Update(std::vector<uint8_t> voxels) {
 
+	Voxels = voxels;
 	m_mesh();
 
 }
@@ -142,29 +270,10 @@ void Chunk::m_mesh() {
 
 	}
 
-	glGenVertexArrays(1, &m_vao);
-	glBindVertexArray(m_vao);
+	MeshReady = true;
 
-	glGenBuffers(1, &m_vbo);
-	glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
+}
 
-	std::vector<glm::vec3> data;
-	data.insert(data.end(), m_vertices.begin(), m_vertices.end());
-	data.insert(data.end(), m_uvs.begin(), m_uvs.end());
-
-	m_numVerts = m_vertices.size();
-
-	glBufferData(GL_ARRAY_BUFFER, data.size() * sizeof(glm::vec3), &data[0], GL_STATIC_DRAW);
-
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (const void*)0);
-
-	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, (const void*)(m_vertices.size() * sizeof(glm::vec3)));
-
-	m_vertices.clear();
-	m_uvs.clear();
-
-	glBindVertexArray(0);
+Chunk::~Chunk() {
 
 }

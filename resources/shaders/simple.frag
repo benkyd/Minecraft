@@ -17,8 +17,11 @@ void main() {
 	if (outColour.w == .0)
 		discard;
 	
-	float fogMax = 20000;
+	float fogMax = 60000;
 	
-	outColour = vec4(mix(outColour.xyz, SkyColour, min(1.0f, Distance / fogMax)), outColour.w);
+	vec3 colour = mix(outColour.xyz, SkyColour, min(1.0f, Distance / fogMax));
+
+	// Retain fragment transparency
+	outColour = vec4(colour, outColour.w);
 
 }

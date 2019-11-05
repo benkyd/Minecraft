@@ -2,9 +2,11 @@
 
 A Minecraft clone written in C++ with OpenGL
 
-![](https://imgur.com/fUf4U4R.png)
+![](https://i.imgur.com/UBiisxS.jpg)
 
 ### Development Checklist
+
+### Trello coming soon
 
 - [X] Block atlas
 - [X] Texturing faces
@@ -12,7 +14,7 @@ A Minecraft clone written in C++ with OpenGL
 - [X] Fog
 - [ ] Fustrum culling
 - [ ] Chunk generation around the player
-- [ ] Threaded chunk generation
+- [X] Threaded chunk generation
 - [ ] Player collision
 - [ ] Player cursor
 - [ ] Procedural world generation
