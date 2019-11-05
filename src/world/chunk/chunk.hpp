@@ -7,6 +7,8 @@
 #define CHUNK_WIDTH  16
 #define CHUNK_DEPTH  16
 
+class FastNoise;
+
 class Camera;
 class Shader;
 
@@ -18,19 +20,16 @@ public:
 	Chunk();
 	Chunk(int x, int z);
 	Chunk(int x, int z, std::vector<uint8_t> voxels);
+	Chunk(int x, int z, std::shared_ptr<FastNoise> terrainGenerator);
 
 	void Load();
 
-	bool MeshReady = false;
 	void UploadMesh();
-
+	bool MeshReady = false;
 
 	void Render(std::shared_ptr<Camera> camera, std::shared_ptr<Shader> shader);
 
 	void Update(std::vector<uint8_t> voxels);
-
-	//bool Loaded = false;
-	//bool Render = false;
 
 	uint8_t BlockAt(int x, int y, int z);
 
@@ -43,6 +42,9 @@ public:
 	bool Loaded = false;
 	// To only be changed by render components
 	bool ShouldRender = false;
+
+	// Chunk World pos
+	int X,Z;
 
 	~Chunk();
 

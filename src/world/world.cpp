@@ -5,6 +5,7 @@
 #include "../renderer/shader.hpp"
 
 #include "../config.hpp"
+#include "../util/fastnoise.hpp"
 
 World::World() {
 
@@ -16,13 +17,21 @@ void World::LoadWorld() {
 	m_shaders["Basic"]->Load(GameConfig.ResourceBase + "shaders/simple");
 	m_shaders["Basic"]->Link();
 
-	for (int x = -4; x < 4; x++)
+    m_noiseGenerator = std::make_shared<FastNoise>();
+    m_noiseGenerator->SetSeed(rand());
+
+    m_noiseGenerator->SetNoiseType(FastNoise::SimplexFractal);
+
+    m_noiseGenerator->SetFractalOctaves(3);
+
+	for (int x = -4; x < 10; x++)
 	for (int y = -4; y < 4; y++) {
 
 		m_chunkLoaderQueue.push({ x, y });
 
 	}
 
+	// 
 	for (int i = 0; i < 7; i++) {
 
 		m_generatorThreads.push_back(std::thread([&]() {
@@ -115,7 +124,7 @@ void World::m_loadChunks() {
 		m_chunkMutex.unlock();
 
 
-		std::shared_ptr<Chunk> loadingChunk = std::make_shared<Chunk>(coords.x, coords.y);
+		std::shared_ptr<Chunk> loadingChunk = std::make_shared<Chunk>(coords.x, coords.y, m_noiseGenerator);
 		std::cout << "Loaded chunk " << coords.x << ":" << coords.y << std::endl;
 
 
@@ -130,6 +139,7 @@ void World::m_loadChunks() {
 		while (m_chunkLoaderQueue.empty()) {
 
 			if (!m_generatorRunning) break;
+
 			static std::chrono::milliseconds dura(1);
 			std::this_thread::sleep_for(dura);
 		

@@ -1,11 +1,12 @@
 #include "chunk.hpp"
+#include "voxel.hpp"
 
 #include "../../renderer/shader.hpp"
 #include "../../renderer/camera.hpp"
 
-#include "voxel.hpp"
-
 #include "../block.hpp"
+
+#include "../../util/fastnoise.hpp"
 
 #include <random>
 
@@ -17,7 +18,7 @@ Chunk::Chunk() {
 
 Chunk::Chunk(int x, int z) {
 
-	m_model = glm::translate(glm::mat4(1.0f), { x * CHUNK_WIDTH, 0, z * CHUNK_DEPTH });
+	X = x, Z = z;
 
 	Load();
 
@@ -25,10 +26,34 @@ Chunk::Chunk(int x, int z) {
 
 Chunk::Chunk(int x, int z, std::vector<uint8_t> voxels) {
 
-	m_model = glm::translate(glm::mat4(1.0f), { x * CHUNK_WIDTH, 0, z * CHUNK_DEPTH });
+	X = x, Z = z;
 	
 	Voxels = voxels;
 	
+	Load();
+
+}
+
+Chunk::Chunk(int x, int z, std::shared_ptr<FastNoise> terrainGenerator) {
+
+	X = x, Z = z;
+
+	for (x = 0; x < CHUNK_WIDTH; x++)
+	for (int y = 0; y < CHUNK_HEIGHT; y++)
+	for (z = 0; z < CHUNK_DEPTH; z++) {
+
+		if (pow(y / (float)CHUNK_HEIGHT, 1.1024f) + terrainGenerator->GetValueFractal(x + (Z * CHUNK_WIDTH), y, z + (X * CHUNK_DEPTH))  * 0.60f < 0.3f) {
+	
+			Voxels.push_back((uint8_t)EBlockType::Grass);
+	
+		} else {
+	
+			Voxels.push_back((uint8_t)EBlockType::Air);
+	
+		}
+
+	}
+
 	Load();
 
 }
@@ -38,25 +63,21 @@ void Chunk::Load() {
 	if (Loaded)
 		return;
 
+	m_model = glm::translate(glm::mat4(1.0f), { X * CHUNK_WIDTH, 0, Z * CHUNK_DEPTH });
+
 	if (!Voxels.empty()) {
 		m_mesh();
+		Loaded = true;
 		return;
 	}
 
+	// Generate a superflat chunk if nothing is there
 	// [x + WIDTH * (y + HEIGHT * z)]
 	for (int x = 0; x < CHUNK_WIDTH; x++)
 	for (int y = 0; y < CHUNK_HEIGHT; y++)
 	for (int z = 0; z < CHUNK_DEPTH; z++) {
 
 		if (y > 32) {
-			Voxels.push_back((uint8_t)EBlockType::Air);
-			continue;
-		}
-
-		std::uniform_real_distribution<float> distribution(0, 1);
-		float r = distribution(generator);
-		
-		if (r > 0.9f) {
 			Voxels.push_back((uint8_t)EBlockType::Air);
 			continue;
 		}

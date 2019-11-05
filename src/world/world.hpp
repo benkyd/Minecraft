@@ -12,6 +12,8 @@
 #include <mutex>
 #include <queue>
 
+class FastNoise;
+
 class Shader;
 
 class World {
@@ -60,6 +62,9 @@ private:
 	std::queue<glm::vec2> m_chunkLoaderQueue;
 
 	std::mutex m_chunkMutex;
+
+	// Generator
+	std::shared_ptr<FastNoise> m_noiseGenerator;
 
 
 	void m_loadChunks();
