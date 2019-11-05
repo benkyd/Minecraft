@@ -84,7 +84,7 @@ void Game::Setup(int w, int h) {
 
 	m_cameras["Default"] = std::make_shared<Camera>(w, h);
 	m_activeCamera = m_cameras["Default"];
-	m_activeCamera->Position = { 0, 64, 0 };
+	m_activeCamera->Position = { 0, 70, 0 };
 	m_activeCamera->UpdateView();
 
 	std::shared_ptr<CBlockDictionary> BlockDictionary = CBlockDictionary::GetInstance();

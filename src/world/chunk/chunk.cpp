@@ -37,20 +37,71 @@ Chunk::Chunk(int x, int z, std::vector<uint8_t> voxels) {
 Chunk::Chunk(int x, int z, std::shared_ptr<FastNoise> terrainGenerator) {
 
 	X = x, Z = z;
+	int y;
 
 	for (x = 0; x < CHUNK_WIDTH; x++)
-	for (int y = 0; y < CHUNK_HEIGHT; y++)
+	for (y = 0; y < CHUNK_HEIGHT; y++)
 	for (z = 0; z < CHUNK_DEPTH; z++) {
 
-		if (pow(y / (float)CHUNK_HEIGHT, 1.1024f) + terrainGenerator->GetValueFractal(x + (Z * CHUNK_WIDTH), y, z + (X * CHUNK_DEPTH))  * 0.60f < 0.3f) {
+		if (y == 0) {
+			Voxels.push_back((uint8_t)EBlockType::Bedrock);
+			continue;
+		}
+
+		if (y == 1 && (float)rand() / (float)RAND_MAX > 0.5f) {
+			Voxels.push_back((uint8_t)EBlockType::Bedrock);
+			continue;
+		}
+
+		if (pow(y / (float)CHUNK_HEIGHT, 1.1024f) + terrainGenerator->GetValueFractal(x + (Z * CHUNK_WIDTH), y, z + (X * CHUNK_DEPTH))  * 0.60f < 0.5f) {
 	
 			Voxels.push_back((uint8_t)EBlockType::Grass);
-	
-		} else {
-	
-			Voxels.push_back((uint8_t)EBlockType::Air);
-	
+			continue;
+				
 		}
+		
+		Voxels.push_back((uint8_t)EBlockType::Air);
+
+	}
+
+	for (x = 0; x < CHUNK_WIDTH; x++)
+	for (y = 0; y < CHUNK_HEIGHT; y++)
+	for (z = 0; z < CHUNK_DEPTH; z++) {
+
+		if (BlockAt(x, y, z) == EBlockType::Bedrock)
+			continue;
+
+		// No need for bounds checking as a closed loop
+		if (BlockAt(x, y + 1, z) == EBlockType::Grass)
+			Voxels[x + CHUNK_WIDTH * (y + CHUNK_HEIGHT * z)] = EBlockType::Dirt;
+
+	}
+
+	// Add stone 3 layers below dirt
+	for (x = 0; x < CHUNK_WIDTH; x++)
+	for (y = 0; y < CHUNK_HEIGHT; y++)
+	for (z = 0; z < CHUNK_DEPTH; z++) {
+
+		if (BlockAt(x, y, z) == EBlockType::Bedrock)
+			continue;
+
+		if (BlockAt(x, y + 1, z) == EBlockType::Dirt)
+		if (BlockAt(x, y + 2, z) == EBlockType::Dirt) 
+		// if (BlockAt(x, y + 3, z) == EBlockType::Dirt) 
+			Voxels[x + CHUNK_WIDTH * (y + CHUNK_HEIGHT * z)] = EBlockType::Stone;
+	
+	}
+	
+	// Add the rest of the stone
+	for (x = 0; x < CHUNK_WIDTH; x++)
+	for (y = 0; y < CHUNK_HEIGHT; y++)
+	for (z = 0; z < CHUNK_DEPTH; z++) {
+
+		if (BlockAt(x, y, z) == EBlockType::Bedrock)
+			continue;
+
+		if (BlockAt(x, y + 1, z) == EBlockType::Stone)
+			Voxels[x + CHUNK_WIDTH * (y + CHUNK_HEIGHT * z)] = EBlockType::Stone;
 
 	}
 
