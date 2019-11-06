@@ -17,7 +17,7 @@ void main() {
 	if (outColour.w == .0)
 		discard;
 	
-	float fogMax = 60000;
+	float fogMax = 200000;
 	
 	vec3 colour = mix(outColour.xyz, SkyColour, min(1.0f, Distance / fogMax));
 
