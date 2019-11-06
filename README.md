@@ -6,13 +6,11 @@ A Minecraft clone written in C++ with OpenGL
 
 ### Development Checklist
 
-#### Trello:
+#### Trello
 
 All of the projects progress will be tracked here
 
 https://trello.com/b/jpGIDFKm/minecraft
-
-Even after this initial short checklist there will be a lot to implement to have a playable minecraft clone, its really there so you can see the development stage of the renderer.
 
 ### Disclaimer 
 
