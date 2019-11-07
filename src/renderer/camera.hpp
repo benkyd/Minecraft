@@ -5,6 +5,7 @@
 
 class Camera {
 public:
+	Camera();
 	Camera(int w, int h);
 
 	void UpdateView();

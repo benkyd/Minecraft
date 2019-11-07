@@ -3,7 +3,7 @@
 
 #include "../common.hpp"
 
-class Camera;
+class Entity;
 class World;
 
 // Does GL render passes then returns to the game loop
@@ -11,7 +11,7 @@ class Renderer {
 public:
 	Renderer();
 
-	void Render(std::shared_ptr<World> world, std::shared_ptr<Camera> camera);
+	void Render(std::shared_ptr<World> world, std::shared_ptr<Entity> entity);
 
 };
 

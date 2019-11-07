@@ -12,6 +12,7 @@
 #include "renderer/camera.hpp"
 
 #include "world/chunk/chunk.hpp"
+#include "world/entity.hpp"
 #include "world/world.hpp"
 #include "world/block.hpp"
 
@@ -82,10 +83,9 @@ void Game::Setup(int w, int h) {
 	*m_logger << LOGGER_ENDL;
 	IsDisplayOpen = true;
 
-	m_cameras["Default"] = std::make_shared<Camera>(w, h);
-	m_activeCamera = m_cameras["Default"];
-	m_activeCamera->Position = { 0, 70, 0 };
-	m_activeCamera->UpdateView();
+	m_player = std::make_shared<Entity>(0, 70, 0);
+
+	m_player->EntityCamera = std::make_shared<Camera>(w, h);
 
 	std::shared_ptr<CBlockDictionary> BlockDictionary = CBlockDictionary::GetInstance();
 	
@@ -132,7 +132,7 @@ void Game::Input(SDL_Event* e) {
 
 				if (e->window.event == SDL_WINDOWEVENT_RESIZED) {
 
-					m_activeCamera->UpdateProjection(e->window.data1, e->window.data2);
+					m_player->EntityCamera->UpdateProjection(e->window.data1, e->window.data2);
 					glViewport(0, 0, e->window.data1, e->window.data2);
 
 				}
@@ -152,11 +152,11 @@ void Game::Input(SDL_Event* e) {
 
 		}
 
-		if (IsMouseActive) m_activeCamera->HandleMouse(*e);
+		if (IsMouseActive) m_player->EntityCamera->HandleMouse(*e);
 
 	}
 
-	m_activeCamera->MoveCamera(state);
+	m_player->EntityCamera->MoveCamera(state);
 
 }
 
@@ -175,7 +175,8 @@ void Game::Run() {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glClearBufferfv(GL_COLOR, 0, clear);
 
-		m_renderer->Render(m_world , m_activeCamera);
+		m_world->Update(m_player);
+		m_renderer->Render(m_world, m_player);
 
 		SDL_GL_SwapWindow(m_window);
 

@@ -22,6 +22,7 @@ class Logger;
 
 class Renderer;
 class Camera;
+class Entity;
 class World;
 	
 class Game {
@@ -47,9 +48,8 @@ private:
 	std::shared_ptr<Renderer> m_renderer;
 	std::shared_ptr<World> m_world;
 
-	std::map<std::string, std::shared_ptr<Camera>> m_cameras;
-	std::shared_ptr<Camera> m_activeCamera;
-
+	std::shared_ptr<Entity> m_player;
+	
 };
 
 #endif

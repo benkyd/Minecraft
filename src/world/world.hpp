@@ -15,6 +15,7 @@
 class FastNoise;
 
 class Shader;
+class Entity;
 
 class World {
 public:
@@ -33,8 +34,8 @@ public:
 
 	std::vector<std::shared_ptr<Chunk>> GetRenderableChunks();
 
-
-	void Render(std::shared_ptr<Camera> camera);
+	void Update(std::shared_ptr<Entity> player);
+	void Render(std::shared_ptr<Entity> player);
 
 	~World();
 

@@ -4,8 +4,10 @@
 
 #include "../renderer/shader.hpp"
 
-#include "../config.hpp"
 #include "../util/fastnoise.hpp"
+
+#include "../config.hpp"
+#include "entity.hpp"
 
 World::World() {
 
@@ -87,7 +89,11 @@ std::vector<std::shared_ptr<Chunk>> World::GetRenderableChunks() {
 
 }
 
-void World::Render(std::shared_ptr<Camera> camera) {
+void World::Update(std::shared_ptr<Entity> player) {
+
+}
+
+void World::Render(std::shared_ptr<Entity> player) {
 
 	glBindTexture(GL_TEXTURE_2D_ARRAY, m_textureMapID);
 
@@ -96,7 +102,7 @@ void World::Render(std::shared_ptr<Camera> camera) {
 	
 	for (int i = 0; i < chunks.size(); i++) {
 
-		chunks[i]->Render(camera, m_shaders["Basic"]);
+		chunks[i]->Render(player->EntityCamera, m_shaders["Basic"]);
 
 	}
 

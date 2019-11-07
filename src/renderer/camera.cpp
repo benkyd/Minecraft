@@ -1,5 +1,20 @@
 #include "camera.hpp"
 
+Camera::Camera() {
+
+	projMatrix = glm::perspective(glm::radians(45.0f), 1.0f, 0.1f, 1000.0f);
+
+	roll = 0.0f;
+	pitch = 0.0f;
+	yaw = 0.0f;
+
+	Position = {};
+	LookDirection = {};
+
+	viewMatrix = {};
+
+}
+
 Camera::Camera(int w, int h) {
 
 	projMatrix = glm::perspective(glm::radians(45.0f), (float)w / float(h), 0.1f, 1000.0f);
