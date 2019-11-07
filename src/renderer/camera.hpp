@@ -19,7 +19,7 @@ public:
 	void MouseMoved(glm::vec2 mouseDelta);
 
 	float MouseSensitivity = 0.1f;
-	float CameraSpeed = 0.2f;
+	float CameraSpeed = 2.0f;
 
 	glm::vec3 Position = {};
 	glm::vec3 LookDirection = {};
