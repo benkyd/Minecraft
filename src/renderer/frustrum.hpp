@@ -1,0 +1,7 @@
+#ifndef MINECRAFT_RENDERER_FRUSTRUM_H_
+#define MINECRAFT_RENDERER_FRUSTRUM_H_
+
+
+
+
+#endif
