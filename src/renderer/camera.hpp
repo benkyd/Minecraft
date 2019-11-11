@@ -12,6 +12,7 @@ public:
 
 	glm::mat4 GetViewMatrix();
 	glm::mat4 GetProjectionMatrix();
+	glm::mat4 GetFrustrumMatrix();
 
 	void UpdateProjection(int width, int height);
 
@@ -22,7 +23,9 @@ public:
 	float MouseSensitivity = 0.1f;
 	float CameraSpeed = 2.0f;
 
+	// Influences the views update
 	glm::vec3 Position = {};
+	// Only updated after the view is updated
 	glm::vec3 LookDirection = {};
 
 private:
@@ -30,7 +33,7 @@ private:
 
 	glm::mat4 viewMatrix = {};
 	glm::mat4 projMatrix = {};
-
+	
 };
 
 #endif

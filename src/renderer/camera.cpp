@@ -33,9 +33,9 @@ Camera::Camera(int w, int h) {
 void Camera::UpdateView() {
 
 	// roll can be removed
-	glm::mat4 matRoll = glm::mat4(1.0f); //identity matrix; 
-	glm::mat4 matPitch = glm::mat4(1.0f);//identity matrix
-	glm::mat4 matYaw = glm::mat4(1.0f);  //identity matrix
+	glm::mat4 matRoll  = glm::mat4(1.0f); 
+	glm::mat4 matPitch = glm::mat4(1.0f);
+	glm::mat4 matYaw   = glm::mat4(1.0f);
 
 	// roll, pitch and yaw
 	matRoll = glm::rotate(matRoll, roll, glm::vec3(0.0f, 0.0f, 1.0f));
@@ -67,6 +67,12 @@ glm::mat4 Camera::GetViewMatrix() {
 glm::mat4 Camera::GetProjectionMatrix() {
 
 	return projMatrix;
+
+}
+
+glm::mat4 Camera::GetFrustrumMatrix() {
+
+	return viewMatrix * projMatrix;
 
 }
 

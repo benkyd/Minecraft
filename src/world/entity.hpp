@@ -10,8 +10,6 @@ public:
 
     Entity(glm::vec3 position, glm::vec3 direction = { 0.0f, 0.0f, 0.0f }, std::shared_ptr<Camera> camera = std::make_shared<Camera>());
 
-    bool Player = false;
-
     // World position, 1.7 units below the 
     // camera position.
     glm::vec3 Position;
@@ -36,7 +34,7 @@ public:
 class Player : public Entity {
 public: 
 
-    Player(glm::vec3 position, glm::vec3 direction = {0.0f, 0.0f, 0.0f});
+    Player(glm::vec3 position, glm::vec3 direction,  std::shared_ptr<Camera> camera);
 
     void Move(Uint8* state);
 	void HandleMouse(SDL_Event e);
