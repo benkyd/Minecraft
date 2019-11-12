@@ -175,7 +175,7 @@ void Camera::UpdateEulerLookDirection(float roll, float pitch, float yaw) {
 void Camera::UpdateLookDirection(glm::vec3 lookDirection) {
 
 	LookDirection = lookDirection;
-	// TODO: calculate euler values from
-	// look unit vector
+	Pitch = asin(-lookDirection.y);
+	Yaw = atan2(lookDirection.x, lookDirection.z);
 
 }
