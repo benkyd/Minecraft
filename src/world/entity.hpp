@@ -39,7 +39,7 @@ public:
     Player(glm::vec3 position, glm::vec3 direction = {0.0f, 0.0f, 0.0f});
 
     void Move(Uint8* state);
-	void HandleMouse(SDL_Event e);
+	void HandleMouseSDL(SDL_Event e);
 
     void UpdatePosition(glm::vec3 position);
     void UpdateDirection(glm::vec3 direction);

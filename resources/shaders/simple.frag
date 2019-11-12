@@ -12,7 +12,7 @@ uniform sampler2DArray tex;
 void main() {
 
 	outColour = texture(tex, TexCoord);
-	//outColour = vec4(.9, .9, .9, 1);
+	// outColour = vec4(.9, .9, .9, 1);
 
 	if (outColour.w == .0)
 		discard;

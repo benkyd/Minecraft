@@ -4,9 +4,9 @@ Camera::Camera() {
 
 	projMatrix = glm::perspective(glm::radians(45.0f), 1.0f, 0.1f, 1000.0f);
 
-	roll = 0.0f;
-	pitch = 0.0f;
-	yaw = 0.0f;
+	Roll = 0.0f;
+	Pitch = 0.0f;
+	Yaw = 0.0f;
 
 	Position = {};
 	LookDirection = {};
@@ -19,9 +19,9 @@ Camera::Camera(int w, int h) {
 
 	projMatrix = glm::perspective(glm::radians(45.0f), (float)w / float(h), 0.1f, 1000.0f);
 
-	roll = 0.0f;
-	pitch = 0.0f;
-	yaw = 0.0f;
+	Roll = 0.0f;
+	Pitch = 0.0f;
+	Yaw = 0.0f;
 
 	Position = {};
 	LookDirection = {};
@@ -38,9 +38,9 @@ void Camera::UpdateView() {
 	glm::mat4 matYaw = glm::mat4(1.0f);  //identity matrix
 
 	// roll, pitch and yaw
-	matRoll = glm::rotate(matRoll, roll, glm::vec3(0.0f, 0.0f, 1.0f));
-	matPitch = glm::rotate(matPitch, pitch, glm::vec3(1.0f, 0.0f, 0.0f));
-	matYaw = glm::rotate(matYaw, yaw, glm::vec3(0.0f, 1.0f, 0.0f));
+	matRoll = glm::rotate(matRoll, Roll, glm::vec3(0.0f, 0.0f, 1.0f));
+	matPitch = glm::rotate(matPitch, Pitch, glm::vec3(1.0f, 0.0f, 0.0f));
+	matYaw = glm::rotate(matYaw, Yaw, glm::vec3(0.0f, 1.0f, 0.0f));
 
 	glm::mat4 rotate = matRoll * matPitch * matYaw;
 
@@ -99,8 +99,8 @@ void Camera::MoveCamera(Uint8* state) {
 
 	// Rotate by camera direction
 	glm::mat2 rotate {
-		cos(yaw), -sin(yaw),
-		sin(yaw), cos(yaw)
+		cos(Yaw), -sin(Yaw),
+		sin(Yaw), cos(Yaw)
 	};
 
 	glm::vec2 f(0.0, 1.0);
@@ -149,11 +149,33 @@ void Camera::MouseMoved(glm::vec2 mouseDelta) {
 
 	// note that yaw and pitch must be converted to radians.
 	// this is done in UpdateView() by glm::rotate
-	yaw += MouseSensitivity * (mouseDelta.x/100);
-	pitch += MouseSensitivity * (mouseDelta.y/100);
-	pitch = glm::clamp<float>(pitch, -M_PI/2, M_PI/2);
+	Yaw += MouseSensitivity * (mouseDelta.x/100);
+	Pitch += MouseSensitivity * (mouseDelta.y/100);
+	Pitch = glm::clamp<float>(Pitch, -M_PI/2, M_PI/2);
 
 	UpdateView();
 
 }
 
+void Camera::UpdatePosition(glm::vec3 position) {
+
+	Position = position;
+
+}
+
+void Camera::UpdateEulerLookDirection(float roll, float pitch, float yaw) {
+
+	Roll = roll; Pitch = pitch; Yaw = yaw;
+	LookDirection.x = cos(Yaw) * cos(Pitch);
+	LookDirection.y = sin(Yaw) * cos(Pitch);
+	LookDirection.z = sin(Pitch);
+
+}
+
+void Camera::UpdateLookDirection(glm::vec3 lookDirection) {
+
+	LookDirection = lookDirection;
+	// TODO: calculate euler values from
+	// look unit vector
+
+}

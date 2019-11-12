@@ -24,9 +24,9 @@ void World::LoadWorld() {
     m_noiseGenerator = std::make_shared<FastNoise>();
     m_noiseGenerator->SetSeed(rand());
 
-    m_noiseGenerator->SetNoiseType(FastNoise::SimplexFractal);
+    m_noiseGenerator->SetNoiseType(FastNoise::Perlin);
 
-    m_noiseGenerator->SetFractalOctaves(5);
+    m_noiseGenerator->SetFractalOctaves(8);
 
 	for (int x = -4; x < 50; x++)
 	for (int y = -50; y < 4; y++) {

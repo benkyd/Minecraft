@@ -53,7 +53,7 @@ Chunk::Chunk(int x, int z, std::shared_ptr<FastNoise> terrainGenerator) {
 			continue;
 		}
 
-		if (pow(y / (float)CHUNK_HEIGHT, 1.1024f) + terrainGenerator->GetValueFractal(x + (Z * CHUNK_WIDTH), y, z + (X * CHUNK_DEPTH))  * 0.60f < 0.5f) {
+		if (pow(y / (float)CHUNK_HEIGHT, 1.1024f) + terrainGenerator->GetNoise(x + (Z * CHUNK_WIDTH), y, z + (X * CHUNK_DEPTH))  * 0.60f < 0.5f) {
 	
 			Voxels.push_back((uint8_t)EBlockType::Grass);
 			continue;
