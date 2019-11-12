@@ -12,6 +12,7 @@ public:
 
 	glm::mat4 GetViewMatrix();
 	glm::mat4 GetProjectionMatrix();
+	glm::mat4 GetFrustrumMatrix();
 
 	void UpdateProjection(int width, int height);
 
@@ -34,7 +35,7 @@ private:
 
 	glm::mat4 viewMatrix = {};
 	glm::mat4 projMatrix = {};
-
+	
 };
 
 #endif
