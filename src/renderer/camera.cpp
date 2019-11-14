@@ -13,6 +13,8 @@ Camera::Camera() {
 
 	viewMatrix = {};
 
+	UpdateView();
+
 }
 
 Camera::Camera(int w, int h) {
@@ -27,6 +29,8 @@ Camera::Camera(int w, int h) {
 	LookDirection = {};
 
 	viewMatrix = {};
+
+	UpdateView();
 
 }
 
@@ -161,6 +165,8 @@ void Camera::UpdatePosition(glm::vec3 position) {
 
 	Position = position;
 
+	UpdateView();
+
 }
 
 void Camera::UpdateEulerLookDirection(float roll, float pitch, float yaw) {
@@ -170,6 +176,8 @@ void Camera::UpdateEulerLookDirection(float roll, float pitch, float yaw) {
 	LookDirection.y = sin(Yaw) * cos(Pitch);
 	LookDirection.z = sin(Pitch);
 
+	UpdateView();
+
 }
 
 void Camera::UpdateLookDirection(glm::vec3 lookDirection) {
@@ -177,5 +185,7 @@ void Camera::UpdateLookDirection(glm::vec3 lookDirection) {
 	LookDirection = lookDirection;
 	Pitch = asin(-lookDirection.y);
 	Yaw = atan2(lookDirection.x, lookDirection.z);
+
+	UpdateView();
 
 }

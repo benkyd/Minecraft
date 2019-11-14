@@ -16,8 +16,10 @@ public:
 
 	void UpdateProjection(int width, int height);
 
-	void HandleMouse(SDL_Event e);
+	// Keyboard
 	void MoveCamera(Uint8* state);
+	// Mouse
+	void HandleMouse(SDL_Event e);
 	void MouseMoved(glm::vec2 mouseDelta);
 
 	float MouseSensitivity = 0.1f;

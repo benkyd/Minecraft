@@ -9,6 +9,11 @@ public:
     glm::vec3 Max;
 };
 
+class Collider : public ColliderBox {
+public:
+
+};
+
 // TODO: Trees
 class EntityCollider {
 public:

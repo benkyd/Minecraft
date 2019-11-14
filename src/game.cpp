@@ -83,15 +83,14 @@ void Game::Setup(int w, int h) {
 	*m_logger << LOGGER_ENDL;
 	IsDisplayOpen = true;
 
-	m_player = std::make_shared<Entity>(0, 70, 0);
-
-	m_player->EntityCamera = std::make_shared<Camera>(w, h);
+	std::shared_ptr<Camera> playercamera = std::make_shared<Camera>(w, h);
+	m_player = std::make_shared<Player>(glm::vec3(0), glm::vec3(0), playercamera);
 
 	std::shared_ptr<CBlockDictionary> BlockDictionary = CBlockDictionary::GetInstance();
 	
 	BlockDictionary->Build();
 
-	m_world = std::make_unique<World>();
+	m_world = std::make_shared<World>();
 	
 	Texture texture;
 	m_world->SetTextureMap(texture.LoadTextures(BlockDictionary->Textures));
@@ -132,7 +131,7 @@ void Game::Input(SDL_Event* e) {
 
 				if (e->window.event == SDL_WINDOWEVENT_RESIZED) {
 
-					m_player->EntityCamera->UpdateProjection(e->window.data1, e->window.data2);
+					m_player->CameraUpdateProjection(e->window.data1, e->window.data2);
 					glViewport(0, 0, e->window.data1, e->window.data2);
 
 				}
@@ -152,11 +151,11 @@ void Game::Input(SDL_Event* e) {
 
 		}
 
-		if (IsMouseActive) m_player->EntityCamera->HandleMouse(*e);
+		if (IsMouseActive) m_player->HandleMouseSDL(*e);
 
 	}
 
-	m_player->EntityCamera->MoveCamera(state);
+	m_player->MoveSDL(state);
 
 }
 

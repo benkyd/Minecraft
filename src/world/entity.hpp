@@ -5,6 +5,8 @@
 
 class Camera;
 
+class Collider;
+
 class Entity {
 public:
 
@@ -15,7 +17,6 @@ public:
     glm::vec3 Position;
     // Look direction of the camera
     glm::vec3 Direction;
-
     // Velocity in direction
     // of movement
     glm::vec3 Velocity;
@@ -24,25 +25,26 @@ public:
     std::shared_ptr<Camera> EntityCamera;
 
     // Collider
-
+    // std::unique_ptr<Collider> EntityCollider;
 
     // Mesh (or reference to)
 
 };
-
 
 class Player : public Entity {
 public: 
 
     Player(glm::vec3 position, glm::vec3 direction,  std::shared_ptr<Camera> camera);
 
-    void Move(Uint8* state);
+    float EyePosition = 1.7f;
+
+    void MoveSDL(Uint8* state);
 	void HandleMouseSDL(SDL_Event e);
 
     void UpdatePosition(glm::vec3 position);
     void UpdateDirection(glm::vec3 direction);
 
-    void CameaUpdateProjection(int xres, int yres);	
+    void CameraUpdateProjection(int xres, int yres);	
 
 };
 

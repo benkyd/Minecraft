@@ -13,38 +13,47 @@ Entity::Entity(glm::vec3 postion, glm::vec3 direction, std::shared_ptr<Camera> c
     }
 }
 
-<<<<<<< HEAD
-Player::Player(glm::vec3 position, glm::vec3 direction) {
+Player::Player(glm::vec3 position, glm::vec3 direction, std::shared_ptr<Camera> camera)
+    : Entity(position, direction, camera) {
+    
+    Position = { 0, 64, 0 };
+    EntityCamera->Position = { Position.x, Position.y + EyePosition, Position.z };
+    EntityCamera->UpdateView();
 
 }
 
-void Player::Move(Uint8* state) {
-	
+void Player::MoveSDL(Uint8* state) {
+    
+    EntityCamera->MoveCamera(state);
+    Position = EntityCamera->Position;
+    Position.y -= EyePosition;
+
 }
 
 void Player::HandleMouseSDL(SDL_Event e) {
 
-}
-
-    void UpdatePosition(glm::vec3 position);
-    void UpdateDirection(glm::vec3 direction);
-
-    void CameaUpdateProjection(int xres, int yres);	
-=======
-Player::Player(glm::vec3 position, glm::vec3 direction, std::shared_ptr<Camera> camera)
-    : Entity(position, direction, camera) {
-    
-    camera->Position = 
+    EntityCamera->HandleMouse(e);
+    Direction = EntityCamera->LookDirection;
 
 }
 
-Player(glm::vec3 position, glm::vec3 direction = {0.0f, 0.0f, 0.0f});
+void Player::UpdatePosition(glm::vec3 position) {
 
-void Move(Uint8* state);
-void HandleMouse(SDL_Event e);
+    Position = position;
+    EntityCamera->UpdatePosition({ Position.x, Position.y + EyePosition, Position.z });
 
-void UpdatePosition(glm::vec3 position);
-void UpdateDirection(glm::vec3 direction);
+}
 
-void CameaUpdateProjection(int xres, int yres);	
->>>>>>> 0b6a3b520cd2e51e4d8cf7716ec4ddcf51297e2e
+
+void Player::UpdateDirection(glm::vec3 direction) {
+
+    Direction = direction;
+    EntityCamera->UpdateLookDirection(direction);
+
+}
+
+void Player::CameraUpdateProjection(int xres, int yres) {
+
+    EntityCamera->UpdateProjection(xres, yres);
+
+}
