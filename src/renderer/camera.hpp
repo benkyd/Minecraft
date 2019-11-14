@@ -20,8 +20,10 @@ public:
 	void MoveCamera(Uint8* state);
 	// Mouse
 	void HandleMouse(SDL_Event e);
+	// Mouse Delta
 	void MouseMoved(glm::vec2 mouseDelta);
 
+	// Updatable by 
 	float MouseSensitivity = 0.1f;
 	float CameraSpeed = 2.0f;
 

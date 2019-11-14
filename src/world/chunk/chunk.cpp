@@ -53,7 +53,7 @@ Chunk::Chunk(int x, int z, std::shared_ptr<FastNoise> terrainGenerator) {
 			continue;
 		}
 
-		if (pow(y / (float)CHUNK_HEIGHT, 1.1024f) + terrainGenerator->GetNoise(x + (Z * CHUNK_WIDTH), y, z + (X * CHUNK_DEPTH))  * 0.60f < 0.5f) {
+		if (pow((y / (float)CHUNK_HEIGHT), 1.1024f) + terrainGenerator->GetNoise(x + (Z * CHUNK_WIDTH), y, z + (X * CHUNK_DEPTH))  * 0.40f < 0.5f) {
 	
 			Voxels.push_back((uint8_t)EBlockType::Grass);
 			continue;
@@ -149,9 +149,23 @@ void Chunk::Load() {
 
 }
 
+void Chunk::Unload() {
+	
+	m_vertices.clear();
+	m_uvs.clear();
+
+	glBindVertexArray(m_vao);
+
+	glDeleteBuffers(1, &m_vbo);
+	glDeleteVertexArrays(1, &m_vao);
+
+	Loaded = false;
+
+}
+
 void Chunk::UploadMesh() {
 
-	if (!MeshReady)
+	if (!MeshReady || !Loaded)
 		return;
 
 	glGenVertexArrays(1, &m_vao);
@@ -187,7 +201,7 @@ void Chunk::UploadMesh() {
 
 void Chunk::Render(std::shared_ptr<Camera> camera, std::shared_ptr<Shader> shader) {
 
-	if (!Loaded)
+	if (!MeshReady || !Loaded)
 		return;
 
 	shader->Use();
@@ -275,5 +289,7 @@ void Chunk::m_mesh() {
 }
 
 Chunk::~Chunk() {
+
+	Unload();
 
 }

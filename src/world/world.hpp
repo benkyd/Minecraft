@@ -30,7 +30,11 @@ public:
 	void SetTextureMap(GLuint map);
 
 	// Takes world coordinates and gets a chunks coordinates
-	glm::vec2 GetChunkCoords(glm::vec3 wordCoords);
+	glm::vec3 GetChunkCoords(glm::vec3 wordCoords);
+
+	// Takes world coordinates and gets the chunk those coorinates
+	// fall in
+	glm::vec2 GetChunk(glm::vec3 worldCoords);
 
 	std::vector<std::shared_ptr<Chunk>> GetRenderableChunks();
 
@@ -59,10 +63,11 @@ private:
 	// Indexed by chunk coorinates
 	std::unordered_map<glm::vec2, std::shared_ptr<Chunk>> m_chunks;
 
+	std::mutex m_chunkUpdaterMutex;
 	std::queue<glm::vec2> m_chunkUpdatesQueue;
-	std::queue<glm::vec2> m_chunkLoaderQueue;
 
-	std::mutex m_chunkMutex;
+	std::mutex m_chunkLoderMutex;
+	std::queue<glm::vec2> m_chunkLoaderQueue;
 
 	// Generator
 	std::shared_ptr<FastNoise> m_noiseGenerator;
