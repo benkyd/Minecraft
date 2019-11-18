@@ -5,6 +5,7 @@
 
 #include "../renderer/camera.hpp"
 
+#include "generator/chunkmanager.hpp"
 #include "chunk/chunk.hpp"
 
 #include <unordered_map>
@@ -22,7 +23,6 @@ public:
 
 	// Default constructor
 	World();
-
 
 	// Preps the render threads and loads all of the shaders
 	void LoadWorld();

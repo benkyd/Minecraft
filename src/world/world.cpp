@@ -32,12 +32,12 @@ void World::LoadWorld() {
     m_noiseGenerator->SetFractalOctaves(5);
 
 	// Generate a 54x54 chunk world
-	// for (int x = -4; x < 50; x++)
-	// for (int y = -50; y < 4; y++) {
+	for (int x = -4; x < 50; x++)
+	for (int y = -50; y < 4; y++) {
 
-	// 	m_chunkLoaderQueue.push({ x, y });
+		m_chunkLoaderQueue.push({ x, y });
 
-	// }
+	}
 
 	// Spawn generator threads
 	for (int i = 0; i < 6; i++) {
@@ -103,20 +103,20 @@ std::vector<std::shared_ptr<Chunk>> World::GetRenderableChunks() {
 
 void World::Update(std::shared_ptr<Entity> player) {
 
-	glm::vec2 inChunk = GetChunk(player->Position);
+	// glm::vec2 inChunk = GetChunk(player->Position);
 
-	if (m_chunks.find(inChunk) == m_chunks.end()) {
+	// if (m_chunks.find(inChunk) == m_chunks.end()) {
 
-		m_chunkLoderMutex.lock();
+	// 	m_chunkLoderMutex.lock();
 
-		m_chunkLoaderQueue.push(inChunk);
+	// 	m_chunkLoaderQueue.push(inChunk);
 
-		m_chunkLoderMutex.unlock();
+	// 	m_chunkLoderMutex.unlock();
 
-	}
+	// }
 
-	std::cout << "Position: " << player->Position.x << ":" << player->Position.y << ":" << player->Position.z << std::endl;
-	std::cout << "Chunk: " << inChunk.x << ":" << inChunk.y << std::endl << std::endl;
+	// std::cout << "Position: " << player->Position.x << ":" << player->Position.y << ":" << player->Position.z << std::endl;
+	// std::cout << "Chunk: " << inChunk.x << ":" << inChunk.y << std::endl << std::endl;
 
 }
 

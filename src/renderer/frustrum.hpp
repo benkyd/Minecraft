@@ -22,7 +22,6 @@ class FrustrumPlane {
 public:
 
 
-    
 
 };
 

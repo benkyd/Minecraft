@@ -21,6 +21,7 @@ std::shared_ptr<CBlockDictionary> CBlockDictionary::GetInstance() {
 
 void CBlockDictionary::Build() {
 
+	// Order matters !
 	RegisterTexture("stone.png");
 	RegisterTexture("dirt.png");
 	RegisterTexture("grass_side.png");
