@@ -9,6 +9,12 @@ public:
     glm::vec3 Max;
 };
 
+class Collider : public ColliderBox {
+public:
+
+};
+
+// TODO: Trees
 class EntityCollider {
 public:
 
@@ -29,6 +35,5 @@ private:
     float m_zDepth(ColliderBox a, ColliderBox b);
 
 };
-
 
 #endif

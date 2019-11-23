@@ -23,6 +23,7 @@ public:
 	Chunk(int x, int z, std::shared_ptr<FastNoise> terrainGenerator);
 
 	void Load();
+	void Unload();
 
 	void UploadMesh();
 	bool MeshReady = false;

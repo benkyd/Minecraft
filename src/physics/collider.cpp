@@ -26,7 +26,7 @@ float EntityCollider::m_xDepth(ColliderBox a, ColliderBox b) {
 
 
 float EntityCollider::m_yDepth(ColliderBox a, ColliderBox b) {
-    
+ 
 }
 
 
