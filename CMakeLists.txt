@@ -1,10 +1,13 @@
 cmake_minimum_required(VERSION 3.7)
-project(OpenGLPlayground)
+project(MingeCraft)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} CMakeModules/)
-cmake_policy(SET CMP0037 OLD)
 
+<<<<<<< HEAD
 set(CMAKE_BUILD_TYPE Debug)
+=======
+# set(CMAKE_BUILD_TYPE Debug)
+>>>>>>> dev
 set(CMAKE_CXX_FLAGS "-Ofast")
 
 set(executable output)
