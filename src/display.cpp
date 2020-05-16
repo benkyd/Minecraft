@@ -60,7 +60,6 @@ void Display::Input( SDL_Event* e )
 
 	while ( SDL_PollEvent( e ) )
 	{
-
 		switch ( e->type )
 		{
 
