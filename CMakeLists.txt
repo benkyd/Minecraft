@@ -3,11 +3,7 @@ project(MingeCraft)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} CMakeModules/)
 
-<<<<<<< HEAD
-set(CMAKE_BUILD_TYPE Debug)
-=======
 # set(CMAKE_BUILD_TYPE Debug)
->>>>>>> dev
 set(CMAKE_CXX_FLAGS "-Ofast")
 
 set(executable output)
@@ -46,11 +42,7 @@ include_directories(${executable}
 
 file(GLOB SourceFiles 
 	${SrcDIR}/*
-	${SrcDIR}/util/*
-	${SrcDIR}/game/*
-	${SrcDIR}/world/*
-	${SrcDIR}/world/chunk/*
-	${SrcDIR}/renderer/*
+	${SrcDIR}/ThirdParty/*
 )
 
 add_executable(${executable} ${SourceFiles})
