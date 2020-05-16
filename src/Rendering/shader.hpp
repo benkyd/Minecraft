@@ -3,8 +3,7 @@
 
 #include <logger.h>
 
-#include "../util/filereader.hpp"
-#include "../common.hpp"
+#include <glad/glad.h>
 
 class Shader {
 public:
@@ -20,14 +19,12 @@ public:
 
 	~Shader();
 private:
-	std::shared_ptr<Logger> m_logger;
+	std::shared_ptr<Logger> mLogger;
 
-	bool m_CheckShader(GLuint uid);
+	bool mCheckShader(GLuint uid);
 
-	FileReader m_fileReader;
-
-	GLuint m_vert;
-	GLuint m_frag;
+	GLuint mVert;
+	GLuint mFrag;
 };
 
 #endif

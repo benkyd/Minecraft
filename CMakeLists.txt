@@ -43,6 +43,7 @@ include_directories(${executable}
 file(GLOB SourceFiles 
 	${SrcDIR}/*
 	${SrcDIR}/ThirdParty/*
+	${SrcDIR}/Rendering/*
 )
 
 add_executable(${executable} ${SourceFiles})

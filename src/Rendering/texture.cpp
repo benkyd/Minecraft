@@ -2,16 +2,16 @@
 
 #include <logger.h>
 
-#include "../config.hpp"
+#include "../settings.hpp"
 
 #define STB_IMAGE_IMPLEMENTATION
-#include "../util/stb_image.hpp"
+#include "../ThirdParty/stb_image.hpp"
 
 GLuint Texture::LoadTextures(std::vector<std::string> textures) {
 
     Logger logger;
 
-    std::string basePath = GameConfig.ResourceBase + "textures/";
+    std::string basePath = ResourceBase + "textures/";
 
     int x = 16;
     int y = 16;

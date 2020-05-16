@@ -1,7 +1,10 @@
 #ifndef MINECRAFT_RENDERER_TEXTURE_H_
 #define MINECRAFT_RENDERER_TEXTURE_H_
 
-#include "../common.hpp"
+#include <vector>
+#include <string>
+
+#include <glad/glad.h>
 
 class Texture {
 public:

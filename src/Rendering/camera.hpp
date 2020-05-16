@@ -1,7 +1,17 @@
 #ifndef MINECRAFT_RENDERER_CAMERA_H_
 #define MINECRAFT_RENDERER_CAMERA_H_
 
-#include "../common.hpp"
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+#define GLM_ENABLE_EXPERIMENTAL
+#include <glm/gtx/hash.hpp>
+#include <glm/glm.hpp>
+
+#if _WIN32
+#include <SDL.h>
+#else
+#include <SDL2/SDL.h>
+#endif
 
 class Camera {
 public:

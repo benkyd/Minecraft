@@ -97,7 +97,7 @@ void Display::Input( SDL_Event* e )
 
 		}
 
-		// if ( IsMouseActive ) m_player->HandleMouseSDL( *e );
+		// if ( IsMouseActive ) HandleMouseSDL( *e );
 	}
 
 	// m_player->MoveSDL( state );
