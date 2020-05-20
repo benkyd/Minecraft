@@ -82,8 +82,9 @@ void Display::Input( SDL_Event* e )
 		{
 			if ( e->window.event == SDL_WINDOWEVENT_RESIZED )
 			{
-				// CameraUpdateProjection( e->window.data1, e->window.data2 );
-				glViewport( 0, 0, e->window.data1, e->window.data2 );
+				mW = e->window.data1; mH = e->window.data2;
+				// CameraUpdateProjection( mW, mH );
+				glViewport( 0, 0, mW, mH );
 			}
 
 			break;

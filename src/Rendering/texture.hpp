@@ -1,5 +1,5 @@
-#ifndef MINECRAFT_RENDERER_TEXTURE_H_
-#define MINECRAFT_RENDERER_TEXTURE_H_
+#ifndef MINECRAFT_RENDERING_TEXTURE_H_
+#define MINECRAFT_RENDERING_TEXTURE_H_
 
 #include <vector>
 #include <string>

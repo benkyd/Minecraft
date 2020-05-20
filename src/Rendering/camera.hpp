@@ -1,5 +1,5 @@
-#ifndef MINECRAFT_RENDERER_CAMERA_H_
-#define MINECRAFT_RENDERER_CAMERA_H_
+#ifndef MINECRAFT_RENDERING_CAMERA_H_
+#define MINECRAFT_RENDERING_CAMERA_H_
 
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>

@@ -13,6 +13,7 @@
 #include "display.hpp"
 #include "settings.hpp"
 
+#include "Rendering/texture.hpp"
 
 #define __DEBUG
 
@@ -45,7 +46,6 @@ void Loop( Display* display )
 		// make framerate agnostic
 		display->Input( &e );
 
-
 		// rendering here
 
 		display->NextFrame();
@@ -72,6 +72,8 @@ int main( int argc, char** argv )
 	version << VERSION_MAJOR << "." << VERSION_MINOR << "." << VERSION_PATCH;
 
 	Display display { WindowWidth, WindowHeight, version.str() };
+
+	
 
 	Loop( &display );
 
