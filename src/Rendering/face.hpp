@@ -1,7 +1,8 @@
 #ifndef MINECRAFT_RENDERING_FACE_H_
 #define MINECRAFT_RENDERING_FACE_H_
 
-#include "../../common.hpp"
+#include <vector>
+#include <glm/glm.hpp>
 
 namespace EFaceType {
 
