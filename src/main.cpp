@@ -17,9 +17,9 @@
 
 #define __DEBUG
 
-static const int VERSION_MAJOR = 1;
-static const int VERSION_MINOR = 1;
-static const int VERSION_PATCH = 0;
+static const int VERSION_MAJOR = 0;
+static const int VERSION_MINOR = 0;
+static const int VERSION_PATCH = 1;
 
 void version()
 {
@@ -48,6 +48,7 @@ void Loop( Display* display )
 
 		// rendering here
 
+
 		display->NextFrame();
 	}
 
@@ -73,8 +74,7 @@ int main( int argc, char** argv )
 
 	Display display { WindowWidth, WindowHeight, version.str() };
 
-	
-
 	Loop( &display );
 
+	return 0;
 }
