@@ -44,13 +44,15 @@ file(GLOB SourceFiles
 	${SrcDIR}/*
 	${SrcDIR}/ThirdParty/*
 	${SrcDIR}/Rendering/*
+	${SrcDIR}/Rendering/Platform/*
+	${SrcDIR}/World/*
 )
 
 add_executable(${executable} ${SourceFiles})
 
 set_target_properties(${executable} PROPERTIES
-	CXX_STANDARD 17
-	CXX_EXTENSIONS OFF
+	CXX_STANDARD 20
+	CXX_EXTENSIONS ON
 )
 
 if (UNIX)

@@ -13,7 +13,11 @@
 #include "display.hpp"
 #include "settings.hpp"
 
+#include "Rendering/rendermaster.hpp"
 #include "Rendering/texture.hpp"
+#include "Rendering/camera.hpp"
+#include "Rendering/mesh.hpp"
+
 
 #define __DEBUG
 
@@ -39,6 +43,9 @@ void Loop( Display* display )
 {
 	SDL_Event e;
 
+
+
+
 	while ( display->IsWindowOpen )
 	{
 		display->PrepareFrame();
@@ -47,6 +54,9 @@ void Loop( Display* display )
 		display->Input( &e );
 
 		// rendering here
+
+
+
 
 
 		display->NextFrame();
