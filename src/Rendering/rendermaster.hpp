@@ -5,6 +5,7 @@
  * Renderer Structure
  * 
  * Mesh -> Renderable
+ * Mesh -> VoxelMesh
  * Renderable -> Model
  * Renderable -> World (static(?))
  * Renderable -> Entity (dynamic)

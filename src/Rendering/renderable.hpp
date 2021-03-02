@@ -35,8 +35,6 @@ private:
 	std::vector<Mesh*> mMeshs;
 	Mesh* mActiveMesh;
 
-	GLuint mActiveVAO;
-	GLuint mActiveVBO;
 	// Meshes have uniform uniforms
 	GLuint mUBO;
 

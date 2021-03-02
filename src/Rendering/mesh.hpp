@@ -15,8 +15,10 @@ public:
 
 	Mesh();
 	
-	
+private:
 
+	GLuint mVAO;
+	GLuint mVBO;
 
 };
 

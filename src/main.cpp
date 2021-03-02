@@ -29,7 +29,7 @@ void version()
 {
 	std::stringstream version;
 
-	auto& container = []( std::string s ) { std::string r = ""; for ( auto& c : s ) { r += "-"; } return r; };
+	const auto& container = []( std::string s ) { std::string r = ""; for ( auto& c : s ) { r += "-"; } return r; };
 
 	version << "Minecraft ";
 	version << VERSION_MAJOR << "." << VERSION_MINOR << "." << VERSION_PATCH;
