@@ -28,6 +28,9 @@ if (WIN32)
 endif (WIN32)
 
 set(THREADS_PREFER_PTHREAD_FLAD ON)
+
+set(OpenGL_GL_PREFERENCE GLVND)
+
 find_package(Threads REQUIRED)
 find_package(OpenGL REQUIRED)
 

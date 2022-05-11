@@ -28,8 +28,8 @@ void World::LoadWorld() {
 
     m_noiseGenerator->SetFractalOctaves(8);
 
-	for (int x = -4; x < 50; x++)
-	for (int y = -50; y < 4; y++) {
+	for (int x = -4; x < 5; x++)
+	for (int y = -5; y < 4; y++) {
 
 		m_chunkLoaderQueue.push({ x, y });
 

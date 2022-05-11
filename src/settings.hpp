@@ -6,8 +6,8 @@
 // TODO: import settings and stuff
 // for now this works
 
-static const int WindowWidth = 1000;
-static const int WindowHeight = 600;
+static const int WindowWidth = 1920;
+static const int WindowHeight = 1080;
 
 static const std::string ResourceBase = MC_RESOURCES;
 
