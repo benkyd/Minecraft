@@ -15,6 +15,7 @@ add_definitions(-DMC_RESOURCES="${CMAKE_SOURCE_DIR}/resources/")
 message(${CMAKE_SOURCE_DIR}/resources)
 
 if (UNIX)
+	find_package(glm REQUIRED)
 	find_package(SDL2 REQUIRED)
 endif(UNIX)
 
@@ -27,6 +28,9 @@ if (WIN32)
 endif (WIN32)
 
 set(THREADS_PREFER_PTHREAD_FLAD ON)
+
+set(OpenGL_GL_PREFERENCE GLVND)
+
 find_package(Threads REQUIRED)
 find_package(OpenGL REQUIRED)
 
@@ -58,6 +62,7 @@ set_target_properties(${executable} PROPERTIES
 if (UNIX)
 	target_link_libraries(${executable}
 		SDL2
+		glm
 		OpenGL::OpenGL
 		OpenGL::GL
 		Threads::Threads

@@ -1,6 +1,8 @@
 #ifndef MINECRAFT_RENDERING_MESH_H_
 #define MINECRAFT_RENDERING_MESH_H_
 
+#include "../common.hpp"
+
 class Vertex
 {
 public:
@@ -14,7 +16,7 @@ class Mesh
 public:
 
 	Mesh();
-	
+
 private:
 
 	GLuint mVAO;
